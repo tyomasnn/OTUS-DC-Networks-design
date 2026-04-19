@@ -274,52 +274,527 @@ Leaf3#sh run<br>
 </details>
 <details>
 <summary> PC1 </summary>
-PC1> sh ip<br>
-<br>
-NAME        : PC1[1]<br>
-IP/MASK     : 10.52.11.2/30<br>
-GATEWAY     : 10.52.11.1<br>
-DNS         :<br>
-MAC         : 00:50:79:66:68:06<br>
-LPORT       : 20000<br>
-RHOST:PORT  : 127.0.0.1:30000<br>
-MTU         : 1500<br>
+
+ ```
+PC1> sh ip
+
+NAME        : PC1[1]
+IP/MASK     : 10.52.11.2/30
+GATEWAY     : 10.52.11.1
+DNS         :
+MAC         : 00:50:79:66:68:06
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+```
 </details>
 <details>
 <summary> PC2 </summary>
-PC2> sh ip<br>
-<br>
-NAME        : PC2[1]<br>
-IP/MASK     : 10.52.12.2/30<br>
-GATEWAY     : 10.52.12.1<br>
-DNS         :<br>
-MAC         : 00:50:79:66:68:07<br>
-LPORT       : 20000<br>
-RHOST:PORT  : 127.0.0.1:30000<br>
-MTU         : 1500<br>
+   
+ ```
+PC2> sh ip
+
+NAME        : PC2[1]
+IP/MASK     : 10.52.12.2/30
+GATEWAY     : 10.52.12.1
+DNS         :
+MAC         : 00:50:79:66:68:07
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+```
 </details>
 <details>
 <summary> PC3 </summary>
+
+ ```
 PC3> sh ip<br>
-<br>
-NAME        : PC3[1]<br>
-IP/MASK     : 10.52.13.2/30<br>
-GATEWAY     : 10.52.13.1<br>
-DNS         :<br>
-MAC         : 00:50:79:66:68:08<br>
-LPORT       : 20000<br>
-RHOST:PORT  : 127.0.0.1:30000<br>
-MTU         : 1500<br>
+
+NAME        : PC3[1]
+IP/MASK     : 10.52.13.2/30
+GATEWAY     : 10.52.13.1
+DNS         :
+MAC         : 00:50:79:66:68:08
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+```
 </details>
 <details>
 <summary> PC4 </summary>
-PC4> sh ip<br>
-<br>
-NAME        : PC4[1]<br>
-IP/MASK     : 10.52.13.6/30<br>
-GATEWAY     : 10.52.13.5<br>
-DNS         :<br>
-MAC         : 00:50:79:66:68:09<br>
+
+ ```
+PC4> sh ip
+
+NAME        : PC4[1]
+IP/MASK     : 10.52.13.6/30
+GATEWAY     : 10.52.13.5
+DNS         :
+MAC         : 00:50:79:66:68:09
 LPORT       : 20000<br>
-RHOST:PORT  : 127.0.0.1:30000<br>
-MTU         : 1500<br>
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+```
+</details>
+
+#### Диагностика Spine/Leaf
+
+<details>
+<summary> Spine1 diag </summary>
+ 
+ ```
+Spine1#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ C        10.52.0.1/32 is directly connected, Loopback0
+ O        10.52.0.2/32 [110/30] via 10.52.1.1, Ethernet1
+                                via 10.52.1.3, Ethernet2
+                                via 10.52.1.5, Ethernet3
+ O        10.52.0.11/32 [110/20] via 10.52.1.1, Ethernet1
+ O        10.52.0.12/32 [110/20] via 10.52.1.3, Ethernet2
+ O        10.52.0.13/32 [110/20] via 10.52.1.5, Ethernet3
+ C        10.52.1.0/31 is directly connected, Ethernet1
+ C        10.52.1.2/31 is directly connected, Ethernet2
+ C        10.52.1.4/31 is directly connected, Ethernet3
+ O        10.52.2.0/31 [110/20] via 10.52.1.1, Ethernet1
+ O        10.52.2.2/31 [110/20] via 10.52.1.3, Ethernet2
+ O        10.52.2.4/31 [110/20] via 10.52.1.5, Ethernet3
+ O E2     10.52.11.0/30 [110/1] via 10.52.1.1, Ethernet1
+ O E2     10.52.12.0/30 [110/1] via 10.52.1.3, Ethernet2
+ O E2     10.52.13.0/30 [110/1] via 10.52.1.5, Ethernet3
+ O E2     10.52.13.4/30 [110/1] via 10.52.1.5, Ethernet3
+
+Spine1#sh ip ospf interface
+Loopback0 is up
+  Interface Address 10.52.0.1/32, instance 1, VRF default, Area 0.0.0.0
+  Network Type Broadcast, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router is 10.52.0.1
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 0
+  No authentication
+  Traffic engineering is disabled
+Ethernet2 is up
+  Interface Address 10.52.1.2/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+Ethernet1 is up
+  Interface Address 10.52.1.0/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+Ethernet3 is up
+  Interface Address 10.52.1.4/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+
+Spine1#sh ip ospf neighbor
+Neighbor ID     Instance VRF      Pri State                  Dead Time   Address         Interface
+10.52.0.12      1        default  0   FULL                   00:00:34    10.52.1.3       Ethernet2
+10.52.0.11      1        default  0   FULL                   00:00:32    10.52.1.1       Ethernet1
+10.52.0.13      1        default  0   FULL                   00:00:36    10.52.1.5       Ethernet3
+```
+</details>
+<details>
+<summary> Spine2 diag </summary>
+ 
+ ```
+Spine2#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ O        10.52.0.1/32 [110/30] via 10.52.2.1, Ethernet1
+                                via 10.52.2.3, Ethernet2
+                                via 10.52.2.5, Ethernet3
+ C        10.52.0.2/32 is directly connected, Loopback0
+ O        10.52.0.11/32 [110/20] via 10.52.2.1, Ethernet1
+ O        10.52.0.12/32 [110/20] via 10.52.2.3, Ethernet2
+ O        10.52.0.13/32 [110/20] via 10.52.2.5, Ethernet3
+ O        10.52.1.0/31 [110/20] via 10.52.2.1, Ethernet1
+ O        10.52.1.2/31 [110/20] via 10.52.2.3, Ethernet2
+ O        10.52.1.4/31 [110/20] via 10.52.2.5, Ethernet3
+ C        10.52.2.0/31 is directly connected, Ethernet1
+ C        10.52.2.2/31 is directly connected, Ethernet2
+ C        10.52.2.4/31 is directly connected, Ethernet3
+ O E2     10.52.11.0/30 [110/1] via 10.52.2.1, Ethernet1
+ O E2     10.52.12.0/30 [110/1] via 10.52.2.3, Ethernet2
+ O E2     10.52.13.0/30 [110/1] via 10.52.2.5, Ethernet3
+ O E2     10.52.13.4/30 [110/1] via 10.52.2.5, Ethernet3
+
+Spine2#sh ip osp interface
+Loopback0 is up
+  Interface Address 10.52.0.2/32, instance 1, VRF default, Area 0.0.0.0
+  Network Type Broadcast, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router is 10.52.0.2
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 0
+  No authentication
+  Traffic engineering is disabled
+Ethernet1 is up
+  Interface Address 10.52.2.0/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+Ethernet2 is up
+  Interface Address 10.52.2.2/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+Ethernet3 is up
+  Interface Address 10.52.2.4/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+
+Spine2#sh ip osp nei
+Neighbor ID     Instance VRF      Pri State                  Dead Time   Address         Interface
+10.52.0.11      1        default  0   FULL                   00:00:38    10.52.2.1       Ethernet1
+10.52.0.12      1        default  0   FULL                   00:00:29    10.52.2.3       Ethernet2
+10.52.0.13      1        default  0   FULL                   00:00:30    10.52.2.5       Ethernet3
+```
+</details>
+<details>
+<summary> Leaf1 diag </summary>
+ 
+ ```
+Leaf1#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ O        10.52.0.1/32 [110/20] via 10.52.1.0, Ethernet1
+ O        10.52.0.2/32 [110/20] via 10.52.2.0, Ethernet2
+ C        10.52.0.11/32 is directly connected, Loopback0
+ O        10.52.0.12/32 [110/30] via 10.52.1.0, Ethernet1
+                                 via 10.52.2.0, Ethernet2
+ O        10.52.0.13/32 [110/30] via 10.52.1.0, Ethernet1
+                                 via 10.52.2.0, Ethernet2
+ C        10.52.1.0/31 is directly connected, Ethernet1
+ O        10.52.1.2/31 [110/20] via 10.52.1.0, Ethernet1
+ O        10.52.1.4/31 [110/20] via 10.52.1.0, Ethernet1
+ C        10.52.2.0/31 is directly connected, Ethernet2
+ O        10.52.2.2/31 [110/20] via 10.52.2.0, Ethernet2
+ O        10.52.2.4/31 [110/20] via 10.52.2.0, Ethernet2
+ C        10.52.11.0/30 is directly connected, Ethernet8
+ O E2     10.52.12.0/30 [110/1] via 10.52.1.0, Ethernet1
+                                via 10.52.2.0, Ethernet2
+ O E2     10.52.13.0/30 [110/1] via 10.52.1.0, Ethernet1
+                                via 10.52.2.0, Ethernet2
+ O E2     10.52.13.4/30 [110/1] via 10.52.1.0, Ethernet1
+                                via 10.52.2.0, Ethernet2
+
+Leaf1#sh ip osp inter
+Loopback0 is up
+  Interface Address 10.52.0.11/32, instance 1, VRF default, Area 0.0.0.0
+  Network Type Broadcast, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router is 10.52.0.11
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 0
+  No authentication
+  Traffic engineering is disabled
+Ethernet2 is up
+  Interface Address 10.52.2.1/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+Ethernet1 is up
+  Interface Address 10.52.1.1/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+
+Leaf1#sh ip osp nei
+Neighbor ID     Instance VRF      Pri State                  Dead Time   Address         Interface
+10.52.0.2       1        default  0   FULL                   00:00:36    10.52.2.0       Ethernet2
+10.52.0.1       1        default  0   FULL                   00:00:35    10.52.1.0       Ethernet1
+```
+</details>
+<details>
+<summary> Leaf2 diag </summary>
+ 
+ ```
+Leaf2#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ O        10.52.0.1/32 [110/20] via 10.52.1.2, Ethernet1
+ O        10.52.0.2/32 [110/20] via 10.52.2.2, Ethernet2
+ O        10.52.0.11/32 [110/30] via 10.52.1.2, Ethernet1
+                                 via 10.52.2.2, Ethernet2
+ C        10.52.0.12/32 is directly connected, Loopback0
+ O        10.52.0.13/32 [110/30] via 10.52.1.2, Ethernet1
+                                 via 10.52.2.2, Ethernet2
+ O        10.52.1.0/31 [110/20] via 10.52.1.2, Ethernet1
+ C        10.52.1.2/31 is directly connected, Ethernet1
+ O        10.52.1.4/31 [110/20] via 10.52.1.2, Ethernet1
+ O        10.52.2.0/31 [110/20] via 10.52.2.2, Ethernet2
+ C        10.52.2.2/31 is directly connected, Ethernet2
+ O        10.52.2.4/31 [110/20] via 10.52.2.2, Ethernet2
+ O E2     10.52.11.0/30 [110/1] via 10.52.1.2, Ethernet1
+                                via 10.52.2.2, Ethernet2
+ C        10.52.12.0/30 is directly connected, Ethernet8
+ O E2     10.52.13.0/30 [110/1] via 10.52.1.2, Ethernet1
+                                via 10.52.2.2, Ethernet2
+ O E2     10.52.13.4/30 [110/1] via 10.52.1.2, Ethernet1
+                                via 10.52.2.2, Ethernet2
+
+Leaf2#sh ip osp int
+Loopback0 is up
+  Interface Address 10.52.0.12/32, instance 1, VRF default, Area 0.0.0.0
+  Network Type Broadcast, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router is 10.52.0.12
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 0
+  No authentication
+  Traffic engineering is disabled
+Ethernet2 is up
+  Interface Address 10.52.2.3/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+Ethernet1 is up
+  Interface Address 10.52.1.3/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+
+Leaf2#sh ip osp nei
+Neighbor ID     Instance VRF      Pri State                  Dead Time   Address         Interface
+10.52.0.2       1        default  0   FULL                   00:00:30    10.52.2.2       Ethernet2
+10.52.0.1       1        default  0   FULL                   00:00:35    10.52.1.2       Ethernet1
+```
+</details>
+<details>
+<summary> Leaf3 diag </summary>
+ 
+ ```
+Leaf3#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ O        10.52.0.1/32 [110/20] via 10.52.1.4, Ethernet1
+ O        10.52.0.2/32 [110/20] via 10.52.2.4, Ethernet2
+ O        10.52.0.11/32 [110/30] via 10.52.1.4, Ethernet1
+                                 via 10.52.2.4, Ethernet2
+ O        10.52.0.12/32 [110/30] via 10.52.1.4, Ethernet1
+                                 via 10.52.2.4, Ethernet2
+ C        10.52.0.13/32 is directly connected, Loopback0
+ O        10.52.1.0/31 [110/20] via 10.52.1.4, Ethernet1
+ O        10.52.1.2/31 [110/20] via 10.52.1.4, Ethernet1
+ C        10.52.1.4/31 is directly connected, Ethernet1
+ O        10.52.2.0/31 [110/20] via 10.52.2.4, Ethernet2
+ O        10.52.2.2/31 [110/20] via 10.52.2.4, Ethernet2
+ C        10.52.2.4/31 is directly connected, Ethernet2
+ O E2     10.52.11.0/30 [110/1] via 10.52.1.4, Ethernet1
+                                via 10.52.2.4, Ethernet2
+ O E2     10.52.12.0/30 [110/1] via 10.52.1.4, Ethernet1
+                                via 10.52.2.4, Ethernet2
+ C        10.52.13.0/30 is directly connected, Ethernet7
+ C        10.52.13.4/30 is directly connected, Ethernet8
+
+Leaf3#sh ip osp int
+Loopback0 is up
+  Interface Address 10.52.0.13/32, instance 1, VRF default, Area 0.0.0.0
+  Network Type Broadcast, Cost: 10
+  Transmit Delay is 1 sec, State DR, Priority 1
+  Designated Router is 10.52.0.13
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 0
+  No authentication
+  Traffic engineering is disabled
+Ethernet2 is up
+  Interface Address 10.52.2.5/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+Ethernet1 is up
+  Interface Address 10.52.1.5/31, instance 1, VRF default, Area 0.0.0.0
+  Network Type Point-To-Point, Cost: 10
+  Transmit Delay is 1 sec, State P2P
+  Interface Speed: 1000 mbps
+  No Designated Router on this network
+  No Backup Designated Router on this network
+  Timer intervals configured, Hello 10, Dead 40, Retransmit 5
+  Neighbor Count is 1
+  No authentication
+  Traffic engineering is disabled
+
+Leaf3#sh ip osp nei
+Neighbor ID     Instance VRF      Pri State                  Dead Time   Address         Interface
+10.52.0.2       1        default  0   FULL                   00:00:34    10.52.2.4       Ethernet2
+10.52.0.1       1        default  0   FULL                   00:00:32    10.52.1.4       Ethernet1
+```
+</details>
+
+#### Проверка наличия IP связности между устройствами "PC" имитирующими потребителей сервиса подключенных к портам Leaf-ов OSPF домена:
+
+<details>
+ 
+```
+PC1> ping 10.52.12.2
+
+84 bytes from 10.52.12.2 icmp_seq=1 ttl=61 time=101.051 ms
+
+PC1> ping 10.52.13.2
+
+84 bytes from 10.52.13.2 icmp_seq=1 ttl=61 time=74.793 ms
+
+PC1> ping 10.52.13.6
+
+84 bytes from 10.52.13.6 icmp_seq=1 ttl=61 time=59.598 ms
+
+PC2> ping 10.52.13.2
+
+84 bytes from 10.52.13.2 icmp_seq=1 ttl=61 time=37.102 ms
+
+PC2> ping 10.52.13.6
+
+84 bytes from 10.52.13.6 icmp_seq=1 ttl=61 time=32.166 ms
+
+PC3> ping 10.52.13.6
+
+84 bytes from 10.52.13.6 icmp_seq=1 ttl=63 time=18.671 ms
+
+```
+</details>

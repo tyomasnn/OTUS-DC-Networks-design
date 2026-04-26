@@ -472,3 +472,333 @@ MAC         : 00:50:79:66:68:12
 LPORT       : 20000
 RHOST:PORT  : 127.0.0.1:30000
 MTU         : 1500
+```
+</details>
+
+#### Диагностика Spine/Leaf
+
+<details>
+<summary> Spine1-63 diag </summary>
+ 
+ ```
+Spine1-63#sh isis nei
+
+Instance  VRF      System Id        Type Interface          SNPA              State Hold time   Circuit Id
+UNDERLAY  default  Leaf1-63         L1L2 Ethernet1          P2P               UP    29          0E
+UNDERLAY  default  Leaf2-63         L1L2 Ethernet2          P2P               UP    25          0E
+UNDERLAY  default  Leaf3-63         L1L2 Ethernet3          P2P               UP    27          0E
+
+Spine1-63#sh isis int bri
+
+IS-IS Instance: UNDERLAY VRF: default
+
+Interface Level IPv4 Metric IPv6 Metric Type           Adjacency
+--------- ----- ----------- ----------- -------------- ---------
+Loopback0 L1L2           10          10 loopback       (passive)
+Ethernet1 L1L2           10          10 point-to-point         2
+Ethernet2 L1L2           10          10 point-to-point         2
+Ethernet3 L1L2           10          10 point-to-point         2
+
+Spine1-63#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ C        10.63.0.1/32 is directly connected, Loopback0
+ I L1     10.63.0.2/32 [115/30] via 10.63.1.1, Ethernet1
+                                via 10.63.1.3, Ethernet2
+                                via 10.63.1.5, Ethernet3
+ I L1     10.63.0.11/32 [115/20] via 10.63.1.1, Ethernet1
+ I L1     10.63.0.12/32 [115/20] via 10.63.1.3, Ethernet2
+ I L1     10.63.0.13/32 [115/20] via 10.63.1.5, Ethernet3
+ C        10.63.1.0/31 is directly connected, Ethernet1
+ C        10.63.1.2/31 is directly connected, Ethernet2
+ C        10.63.1.4/31 is directly connected, Ethernet3
+ I L1     10.63.2.0/31 [115/20] via 10.63.1.1, Ethernet1
+ I L1     10.63.2.2/31 [115/20] via 10.63.1.3, Ethernet2
+ I L1     10.63.2.4/31 [115/20] via 10.63.1.5, Ethernet3
+ I L2     10.63.11.0/30 [115/11] via 10.63.1.1, Ethernet1
+ I L2     10.63.12.0/30 [115/11] via 10.63.1.3, Ethernet2
+ I L2     10.63.13.0/30 [115/11] via 10.63.1.5, Ethernet3
+ I L2     10.63.13.4/30 [115/11] via 10.63.1.5, Ethernet3
+```
+</details>
+<details>
+<summary> Spine2-63 diag </summary>
+ 
+ ```
+Spine2-63#sh isis nei
+
+Instance  VRF      System Id        Type Interface          SNPA              State Hold time   Circuit Id
+UNDERLAY  default  Leaf1-63         L1L2 Ethernet1          P2P               UP    26          0F
+UNDERLAY  default  Leaf2-63         L1L2 Ethernet2          P2P               UP    24          0F
+UNDERLAY  default  Leaf3-63         L1L2 Ethernet3          P2P               UP    25          0F
+
+Spine2-63#sh isis int bri
+
+IS-IS Instance: UNDERLAY VRF: default
+
+Interface Level IPv4 Metric IPv6 Metric Type           Adjacency
+--------- ----- ----------- ----------- -------------- ---------
+Loopback0 L1L2           10          10 loopback       (passive)
+Ethernet1 L1L2           10          10 point-to-point         2
+Ethernet2 L1L2           10          10 point-to-point         2
+Ethernet3 L1L2           10          10 point-to-point         2
+
+Spine2-63#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ I L1     10.63.0.1/32 [115/30] via 10.63.2.1, Ethernet1
+                                via 10.63.2.3, Ethernet2
+                                via 10.63.2.5, Ethernet3
+ C        10.63.0.2/32 is directly connected, Loopback0
+ I L1     10.63.0.11/32 [115/20] via 10.63.2.1, Ethernet1
+ I L1     10.63.0.12/32 [115/20] via 10.63.2.3, Ethernet2
+ I L1     10.63.0.13/32 [115/20] via 10.63.2.5, Ethernet3
+ I L1     10.63.1.0/31 [115/20] via 10.63.2.1, Ethernet1
+ I L1     10.63.1.2/31 [115/20] via 10.63.2.3, Ethernet2
+ I L1     10.63.1.4/31 [115/20] via 10.63.2.5, Ethernet3
+ C        10.63.2.0/31 is directly connected, Ethernet1
+ C        10.63.2.2/31 is directly connected, Ethernet2
+ C        10.63.2.4/31 is directly connected, Ethernet3
+ I L2     10.63.11.0/30 [115/11] via 10.63.2.1, Ethernet1
+ I L2     10.63.12.0/30 [115/11] via 10.63.2.3, Ethernet2
+ I L2     10.63.13.0/30 [115/11] via 10.63.2.5, Ethernet3
+ I L2     10.63.13.4/30 [115/11] via 10.63.2.5, Ethernet3
+```
+</details>
+<details>
+<summary> Leaf1-63 </summary>
+ 
+ ```
+Leaf1-63#sh isis nei
+
+Instance  VRF      System Id        Type Interface          SNPA              State Hold time   Circuit Id
+UNDERLAY  default  Spine1-63        L1L2 Ethernet1          P2P               UP    25          0E
+UNDERLAY  default  Spine2-63        L1L2 Ethernet2          P2P               UP    28          0E
+
+Leaf1-63#sh isis int bri
+
+IS-IS Instance: UNDERLAY VRF: default
+
+Interface Level IPv4 Metric IPv6 Metric Type           Adjacency
+--------- ----- ----------- ----------- -------------- ---------
+Loopback0 L1L2           10          10 loopback       (passive)
+Ethernet1 L1L2           10          10 point-to-point         2
+Ethernet2 L1L2           10          10 point-to-point         2
+
+Leaf1-63#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ I L1     10.63.0.1/32 [115/20] via 10.63.1.0, Ethernet1
+ I L1     10.63.0.2/32 [115/20] via 10.63.2.0, Ethernet2
+ C        10.63.0.11/32 is directly connected, Loopback0
+ I L1     10.63.0.12/32 [115/30] via 10.63.1.0, Ethernet1
+                                 via 10.63.2.0, Ethernet2
+ I L1     10.63.0.13/32 [115/30] via 10.63.1.0, Ethernet1
+                                 via 10.63.2.0, Ethernet2
+ C        10.63.1.0/31 is directly connected, Ethernet1
+ I L1     10.63.1.2/31 [115/20] via 10.63.1.0, Ethernet1
+ I L1     10.63.1.4/31 [115/20] via 10.63.1.0, Ethernet1
+ C        10.63.2.0/31 is directly connected, Ethernet2
+ I L1     10.63.2.2/31 [115/20] via 10.63.2.0, Ethernet2
+ I L1     10.63.2.4/31 [115/20] via 10.63.2.0, Ethernet2
+ C        10.63.11.0/30 is directly connected, Ethernet8
+ I L2     10.63.12.0/30 [115/21] via 10.63.1.0, Ethernet1
+                                 via 10.63.2.0, Ethernet2
+ I L2     10.63.13.0/30 [115/21] via 10.63.1.0, Ethernet1
+                                 via 10.63.2.0, Ethernet2
+ I L2     10.63.13.4/30 [115/21] via 10.63.1.0, Ethernet1
+                                 via 10.63.2.0, Ethernet2
+```
+</details>
+<details>
+<summary> Leaf2-63 </summary>
+ 
+ ```
+Leaf2-63#sh isis nei
+
+Instance  VRF      System Id        Type Interface          SNPA              State Hold time   Circuit Id
+UNDERLAY  default  Spine1-63        L1L2 Ethernet1          P2P               UP    26          0F
+UNDERLAY  default  Spine2-63        L1L2 Ethernet2          P2P               UP    21          0F
+
+Leaf2-63#sh isis int bri
+
+IS-IS Instance: UNDERLAY VRF: default
+
+Interface Level IPv4 Metric IPv6 Metric Type           Adjacency
+--------- ----- ----------- ----------- -------------- ---------
+Loopback0 L1L2           10          10 loopback       (passive)
+Ethernet1 L1L2           10          10 point-to-point         2
+Ethernet2 L1L2           10          10 point-to-point         2
+
+Leaf2-63#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ I L1     10.63.0.1/32 [115/20] via 10.63.1.2, Ethernet1
+ I L1     10.63.0.2/32 [115/20] via 10.63.2.2, Ethernet2
+ I L1     10.63.0.11/32 [115/30] via 10.63.1.2, Ethernet1
+                                 via 10.63.2.2, Ethernet2
+ C        10.63.0.12/32 is directly connected, Loopback0
+ I L1     10.63.0.13/32 [115/30] via 10.63.1.2, Ethernet1
+                                 via 10.63.2.2, Ethernet2
+ I L1     10.63.1.0/31 [115/20] via 10.63.1.2, Ethernet1
+ C        10.63.1.2/31 is directly connected, Ethernet1
+ I L1     10.63.1.4/31 [115/20] via 10.63.1.2, Ethernet1
+ I L1     10.63.2.0/31 [115/20] via 10.63.2.2, Ethernet2
+ C        10.63.2.2/31 is directly connected, Ethernet2
+ I L1     10.63.2.4/31 [115/20] via 10.63.2.2, Ethernet2
+ I L2     10.63.11.0/30 [115/21] via 10.63.1.2, Ethernet1
+                                 via 10.63.2.2, Ethernet2
+ C        10.63.12.0/30 is directly connected, Ethernet8
+ I L2     10.63.13.0/30 [115/21] via 10.63.1.2, Ethernet1
+                                 via 10.63.2.2, Ethernet2
+ I L2     10.63.13.4/30 [115/21] via 10.63.1.2, Ethernet1
+                                 via 10.63.2.2, Ethernet2
+```
+</details>
+<details>
+<summary> Leaf3-63 </summary>
+ 
+ ```
+Leaf3-63#sh isis nei
+
+Instance  VRF      System Id        Type Interface          SNPA              State Hold time   Circuit Id
+UNDERLAY  default  Spine1-63        L1L2 Ethernet1          P2P               UP    23          10
+UNDERLAY  default  Spine2-63        L1L2 Ethernet2          P2P               UP    24          10
+
+Leaf3-63#sh isis int bri
+
+IS-IS Instance: UNDERLAY VRF: default
+
+Interface Level IPv4 Metric IPv6 Metric Type           Adjacency
+--------- ----- ----------- ----------- -------------- ---------
+Loopback0 L1L2           10          10 loopback       (passive)
+Ethernet1 L1L2           10          10 point-to-point         2
+Ethernet2 L1L2           10          10 point-to-point         2
+
+Leaf3-63#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ I L1     10.63.0.1/32 [115/20] via 10.63.1.4, Ethernet1
+ I L1     10.63.0.2/32 [115/20] via 10.63.2.4, Ethernet2
+ I L1     10.63.0.11/32 [115/30] via 10.63.1.4, Ethernet1
+                                 via 10.63.2.4, Ethernet2
+ I L1     10.63.0.12/32 [115/30] via 10.63.1.4, Ethernet1
+                                 via 10.63.2.4, Ethernet2
+ C        10.63.0.13/32 is directly connected, Loopback0
+ I L1     10.63.1.0/31 [115/20] via 10.63.1.4, Ethernet1
+ I L1     10.63.1.2/31 [115/20] via 10.63.1.4, Ethernet1
+ C        10.63.1.4/31 is directly connected, Ethernet1
+ I L1     10.63.2.0/31 [115/20] via 10.63.2.4, Ethernet2
+ I L1     10.63.2.2/31 [115/20] via 10.63.2.4, Ethernet2
+ C        10.63.2.4/31 is directly connected, Ethernet2
+ I L2     10.63.11.0/30 [115/21] via 10.63.1.4, Ethernet1
+                                 via 10.63.2.4, Ethernet2
+ I L2     10.63.12.0/30 [115/21] via 10.63.1.4, Ethernet1
+                                 via 10.63.2.4, Ethernet2
+ C        10.63.13.0/30 is directly connected, Ethernet7
+ C        10.63.13.4/30 is directly connected, Ethernet8
+```
+</details>
+
+#### Проверка наличия IP связности между устройствами "PC" имитирующими потребителей сервиса подключенных к портам Leaf-ов ISIS домена:
+
+<details>
+ 
+```
+PC1-63> ping 10.63.12.1
+
+84 bytes from 10.63.12.1 icmp_seq=1 ttl=62 time=48.968 ms
+
+PC1-63> ping 10.63.13.1
+
+84 bytes from 10.63.13.1 icmp_seq=1 ttl=62 time=30.919 ms
+
+PC1-63> ping 10.63.13.6
+
+84 bytes from 10.63.13.6 icmp_seq=1 ttl=61 time=37.499 ms
+
+PC2-63> ping 10.63.13.1
+
+84 bytes from 10.63.13.1 icmp_seq=1 ttl=62 time=34.649 ms
+
+PC2-63> ping 10.63.13.6
+
+84 bytes from 10.63.13.6 icmp_seq=1 ttl=61 time=40.463 ms
+
+PC3-63> ping 10.63.13.6
+
+84 bytes from 10.63.13.6 icmp_seq=1 ttl=63 time=34.915 ms
+
+
+```
+</details>

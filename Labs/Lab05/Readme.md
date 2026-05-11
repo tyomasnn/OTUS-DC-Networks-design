@@ -868,7 +868,7 @@ Total Mac Addresses for this criterion: 0
 ```
 </details>
 <details>
-<summary> Leaf3-43 diag </summary>
+<summary> Leaf3-52 diag </summary>
  
  ```
 Leaf3-52#show bgp evpn

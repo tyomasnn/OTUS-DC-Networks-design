@@ -25,17 +25,14 @@ Leaf1-52|Loopback0 (Underlay)|10.52.0.11|/32
 -|Loopback1 (Overlay)|10.52.0.111|/32
 -|Ethernet1|10.52.1.1|/31
 -|Ethernet2|10.52.2.1|/31
--|Ethernet8|10.52.11.1|/30
 Leaf2-52|Loopback0 (Underlay)|10.52.0.12|/32
 -|Loopback1 (Overlay)|10.52.0.112|/32
 -|Ethernet1|10.52.1.3|/31
 -|Ethernet2|10.52.2.3|/31
--|Ethernet8|10.52.12.1|/30
 Leaf3-52|Loopback0 (Underlay)|10.52.0.13|/32
 -|Loopback1 (Overlay)|10.52.0.113|/32
 -|Ethernet1|10.52.1.5|/31
 -|Ethernet2|10.52.2.5|/31
--|Ethernet8|10.52.12.5|/30
 PC1-52|eth0|192.168.52.2|/24|192.168.52.1
 PC2-52|eth0|192.168.152.2|/24|192.168.152.1
 PC3-52|eth0|192.168.52.2|/25|192.168.252.1

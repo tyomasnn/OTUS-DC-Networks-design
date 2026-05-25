@@ -2793,7 +2793,7 @@ PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
 5 packets transmitted, 5 received, 0% packet loss, time 56ms
 rtt min/avg/max/mdev = 118.318/130.652/142.617/7.917 ms, pipe 5, ipg/ewma 14.026/136.083 ms
 
-PC3-52(config-if-Et1)#ping 192.168.252.130
+PC3-52#ping 192.168.252.130
 PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
 80 bytes from 192.168.252.130: icmp_seq=1 ttl=63 time=190 ms
 80 bytes from 192.168.252.130: icmp_seq=2 ttl=63 time=182 ms

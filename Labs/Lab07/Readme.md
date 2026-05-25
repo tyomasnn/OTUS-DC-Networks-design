@@ -2483,5 +2483,324 @@ PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
 --- 192.168.252.130 ping statistics ---
 5 packets transmitted, 5 received, 0% packet loss, time 54ms
 rtt min/avg/max/mdev = 166.618/173.258/177.396/4.163 ms, pipe 5, ipg/ewma 13.722/174.510 ms
+```
+</details>
 
+### Тестирование отказоустойчивости.
+#### Сценарий №1:
+- Обрыв линка от PC1-52 к Leaf2-52.
+- Линк PC1-52 к Leaf1-52 - в работе.
 
+<details>
+<summary> PC1-52 diag </summary>
+ 
+ ```
+PC1-52#sh lacp count
+po1 st                       LACPDUs        Markers       Marker Response
+ Port    Status       RX      TX     RX     TX         RX          TX   Illegal
+------- ---------- ------- ------- ------ ------ ---------- ----------- -------
+Port Channel Port-Channel1:
+ Et1     Bundled    2284    3102      0      0          0           0         0
+
+PC1-52#sh int po1 st
+Port       Name                     Status       Vlan     Duplex Speed  Type         Flags Encapsulation
+Po1        to Po1 Leaf1-52&Leaf2-52 connected    trunk    full   1G     N/A
+```
+</details>
+
+- Обрыв линка от PC2-52 к Leaf1-52.
+- Линк PC2-52 к Leaf2-52 - в работе.
+
+<details>
+<summary> PC2-52 diag </summary>
+ 
+ ```
+PC2-52#sh lacp count
+                       LACPDUs        Markers       Marker Response
+ Port    Status       RX      TX     RX     TX         RX          TX   Illegal
+------- ---------- ------- ------- ------ ------ ---------- ----------- -------
+Port Channel Port-Channel1:
+ Et2     Bundled    1929    1927      0      0          0           0         0
+
+PC2-52#sh int po1 st
+Port       Name                     Status       Vlan     Duplex Speed  Type         Flags Encapsulation
+Po1        to Po2 Leaf1-52&Leaf2-52 connected    trunk    full   1G     N/A
+```
+</details>
+
+- Обрыв линка от PC3-52 к Leaf4-52.
+- Линк PC3-52 к Leaf3-52 - в работе.
+
+<details>
+<summary> PC3-52 diag </summary>
+ 
+ ```
+PC3-52#sh lacp count
+                       LACPDUs        Markers       Marker Response
+ Port    Status       RX      TX     RX     TX         RX          TX   Illegal
+------- ---------- ------- ------- ------ ------ ---------- ----------- -------
+Port Channel Port-Channel1:
+ Et1     Bundled    1611    1606      0      0          0           0         0
+
+PC3-52#sh int po1 st
+Port       Name                     Status       Vlan     Duplex Speed  Type         Flags Encapsulation
+Po1        to Po1 Leaf3-52&Leaf4-52 connected    trunk    full   1G     N/A
+```
+</details>
+
+- Обрыв линка от PC4-52 к Leaf3-52.
+- Линк PC4-52 к Leaf4-52 - в работе.
+
+<details>
+<summary> PC4-52 diag </summary>
+ 
+ ```
+PC4-52#sh lacp count
+                       LACPDUs        Markers       Marker Response
+ Port    Status       RX      TX     RX     TX         RX          TX   Illegal
+------- ---------- ------- ------- ------ ------ ---------- ----------- -------
+Port Channel Port-Channel1:
+ Et2     Bundled    1539    3467      0      0          0           0         0
+
+PC4-52#sh int po1 st
+Port       Name                     Status       Vlan     Duplex Speed  Type         Flags Encapsulation
+Po1        to Po2 Leaf3-52&Leaf4-52 connected    trunk    full   1G     N/A
+```
+</details>
+
+#### Проверка наличия IP связности между устройствами "PC"
+
+<details>
+ 
+```
+PC1-52#ping 192.168.152.2
+PING 192.168.152.2 (192.168.152.2) 72(100) bytes of data.
+80 bytes from 192.168.152.2: icmp_seq=1 ttl=62 time=263 ms
+80 bytes from 192.168.152.2: icmp_seq=2 ttl=62 time=262 ms
+80 bytes from 192.168.152.2: icmp_seq=3 ttl=62 time=263 ms
+80 bytes from 192.168.152.2: icmp_seq=4 ttl=62 time=267 ms
+80 bytes from 192.168.152.2: icmp_seq=5 ttl=62 time=271 ms
+
+--- 192.168.152.2 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 47ms
+rtt min/avg/max/mdev = 262.486/265.652/271.989/3.590 ms, pipe 5, ipg/ewma 11.941/264.754 ms
+
+PC1-52#ping 192.168.252.2
+PING 192.168.252.2 (192.168.252.2) 72(100) bytes of data.
+80 bytes from 192.168.252.2: icmp_seq=1 ttl=62 time=146 ms
+80 bytes from 192.168.252.2: icmp_seq=2 ttl=62 time=139 ms
+80 bytes from 192.168.252.2: icmp_seq=3 ttl=62 time=145 ms
+80 bytes from 192.168.252.2: icmp_seq=4 ttl=62 time=143 ms
+80 bytes from 192.168.252.2: icmp_seq=5 ttl=62 time=136 ms
+
+--- 192.168.252.2 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 51ms
+rtt min/avg/max/mdev = 136.443/142.384/146.947/3.856 ms, pipe 5, ipg/ewma 12.826/144.488 ms
+
+PC1-52#ping 192.168.252.130
+PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
+80 bytes from 192.168.252.130: icmp_seq=1 ttl=62 time=139 ms
+80 bytes from 192.168.252.130: icmp_seq=2 ttl=62 time=127 ms
+80 bytes from 192.168.252.130: icmp_seq=3 ttl=62 time=135 ms
+80 bytes from 192.168.252.130: icmp_seq=4 ttl=62 time=135 ms
+80 bytes from 192.168.252.130: icmp_seq=5 ttl=62 time=132 ms
+
+--- 192.168.252.130 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 57ms
+rtt min/avg/max/mdev = 127.444/134.172/139.963/4.110 ms, pipe 5, ipg/ewma 14.288/137.065 ms
+
+PC2-52#ping 192.168.252.2
+PING 192.168.252.2 (192.168.252.2) 72(100) bytes of data.
+80 bytes from 192.168.252.2: icmp_seq=1 ttl=62 time=119 ms
+80 bytes from 192.168.252.2: icmp_seq=2 ttl=62 time=150 ms
+80 bytes from 192.168.252.2: icmp_seq=3 ttl=62 time=149 ms
+80 bytes from 192.168.252.2: icmp_seq=4 ttl=62 time=148 ms
+80 bytes from 192.168.252.2: icmp_seq=5 ttl=62 time=144 ms
+
+--- 192.168.252.2 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 51ms
+rtt min/avg/max/mdev = 119.030/142.227/150.082/11.763 ms, pipe 5, ipg/ewma 12.901/130.904 ms
+
+PC2-52#ping 192.168.252.130
+PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
+80 bytes from 192.168.252.130: icmp_seq=1 ttl=62 time=153 ms
+80 bytes from 192.168.252.130: icmp_seq=2 ttl=62 time=171 ms
+80 bytes from 192.168.252.130: icmp_seq=3 ttl=62 time=174 ms
+80 bytes from 192.168.252.130: icmp_seq=4 ttl=62 time=177 ms
+80 bytes from 192.168.252.130: icmp_seq=5 ttl=62 time=170 ms
+
+--- 192.168.252.130 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 55ms
+rtt min/avg/max/mdev = 153.253/169.453/177.604/8.480 ms, pipe 5, ipg/ewma 13.870/161.621 ms
+
+PC3-52#ping 192.168.252.130
+PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
+80 bytes from 192.168.252.130: icmp_seq=1 ttl=63 time=168 ms
+80 bytes from 192.168.252.130: icmp_seq=2 ttl=63 time=167 ms
+80 bytes from 192.168.252.130: icmp_seq=3 ttl=63 time=165 ms
+80 bytes from 192.168.252.130: icmp_seq=4 ttl=63 time=166 ms
+80 bytes from 192.168.252.130: icmp_seq=5 ttl=63 time=173 ms
+
+--- 192.168.252.130 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 49ms
+rtt min/avg/max/mdev = 165.733/168.203/173.130/2.685 ms, pipe 5, ipg/ewma 12.494/168.493 ms
+```
+</details>
+
+#### Сценарий №2 (зеркальный относительно Сценария №1):
+- Обрыв линка от PC1-52 к Leaf1-52.
+- Линк PC1-52 к Leaf2-52 - в работе.
+
+<details>
+<summary> PC1-52 diag </summary>
+ 
+ ```
+PC1-52#sh lacp count
+                       LACPDUs        Markers       Marker Response
+ Port    Status       RX      TX     RX     TX         RX          TX   Illegal
+------- ---------- ------- ------- ------ ------ ---------- ----------- -------
+Port Channel Port-Channel1:
+ Et2     Bundled    2279    3156      0      0          0           0         0
+
+PC1-52#sh int po1 st
+Port       Name                     Status       Vlan     Duplex Speed  Type         Flags Encapsulation
+Po1        to Po1 Leaf1-52&Leaf2-52 connected    trunk    full   1G     N/A
+```
+</details>
+
+- Обрыв линка от PC2-52 к Leaf2-52.
+- Линк PC2-52 к Leaf1-52 - в работе.
+
+<details>
+<summary> PC2-52 diag </summary>
+ 
+ ```
+PC2-52#sh lacp count
+                       LACPDUs        Markers       Marker Response
+ Port    Status       RX      TX     RX     TX         RX          TX   Illegal
+------- ---------- ------- ------- ------ ------ ---------- ----------- -------
+Port Channel Port-Channel1:
+ Et1     Bundled    1936    1934      0      0          0           0         0
+
+PC2-52#sh int po1 st
+Port       Name                     Status       Vlan     Duplex Speed  Type         Flags Encapsulation
+Po1        to Po2 Leaf1-52&Leaf2-52 connected    trunk    full   1G     N/A
+```
+</details>
+
+- Обрыв линка от PC3-52 к Leaf3-52.
+- Линк PC3-52 к Leaf4-52 - в работе.
+
+<details>
+<summary> PC3-52 diag </summary>
+ 
+ ```
+PC3-52#sh lacp count
+                       LACPDUs        Markers       Marker Response
+ Port    Status       RX      TX     RX     TX         RX          TX   Illegal
+------- ---------- ------- ------- ------ ------ ---------- ----------- -------
+Port Channel Port-Channel1:
+ Et2     Bundled    1543    3468      0      0          0           0         0
+
+PC3-52#sh int po1 st
+Port       Name                     Status       Vlan     Duplex Speed  Type         Flags Encapsulation
+Po1        to Po1 Leaf3-52&Leaf4-52 connected    trunk    full   1G     N/A
+```
+</details>
+
+- Обрыв линка от PC4-52 к Leaf4-52.
+- Линк PC4-52 к Leaf3-52 - в работе.
+
+<details>
+<summary> PC4-52 diag </summary>
+ 
+ ```
+PC4-52#sh lacp count
+                       LACPDUs        Markers       Marker Response
+ Port    Status       RX      TX     RX     TX         RX          TX   Illegal
+------- ---------- ------- ------- ------ ------ ---------- ----------- -------
+Port Channel Port-Channel1:
+ Et1     Bundled    1612    1610      0      0          0           0         0
+
+PC4-52#sh int po1 st
+Port       Name                     Status       Vlan     Duplex Speed  Type         Flags Encapsulation
+Po1        to Po2 Leaf3-52&Leaf4-52 connected    trunk    full   1G     N/A
+```
+</details>
+
+#### Проверка наличия IP связности между устройствами "PC"
+
+<details>
+ 
+```
+PC1-52#ping 192.168.152.2
+PING 192.168.152.2 (192.168.152.2) 72(100) bytes of data.
+80 bytes from 192.168.152.2: icmp_seq=1 ttl=63 time=56.3 ms
+80 bytes from 192.168.152.2: icmp_seq=2 ttl=63 time=70.8 ms
+80 bytes from 192.168.152.2: icmp_seq=3 ttl=63 time=79.7 ms
+80 bytes from 192.168.152.2: icmp_seq=4 ttl=63 time=92.2 ms
+80 bytes from 192.168.152.2: icmp_seq=5 ttl=63 time=89.9 ms
+
+--- 192.168.152.2 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 47ms
+rtt min/avg/max/mdev = 56.371/77.830/92.242/13.182 ms, pipe 5, ipg/ewma 11.851/67.942 ms
+
+PC1-52#ping 192.168.252.2
+PING 192.168.252.2 (192.168.252.2) 72(100) bytes of data.
+80 bytes from 192.168.252.2: icmp_seq=1 ttl=62 time=248 ms
+80 bytes from 192.168.252.2: icmp_seq=2 ttl=62 time=246 ms
+80 bytes from 192.168.252.2: icmp_seq=3 ttl=62 time=486 ms
+80 bytes from 192.168.252.2: icmp_seq=4 ttl=62 time=493 ms
+80 bytes from 192.168.252.2: icmp_seq=5 ttl=62 time=520 ms
+
+--- 192.168.252.2 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 48ms
+rtt min/avg/max/mdev = 246.044/399.040/520.720/124.537 ms, pipe 5, ipg/ewma 12.159/331.781 ms
+
+PC1-52#ping 192.168.252.130
+PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
+80 bytes from 192.168.252.130: icmp_seq=1 ttl=62 time=136 ms
+80 bytes from 192.168.252.130: icmp_seq=2 ttl=62 time=132 ms
+80 bytes from 192.168.252.130: icmp_seq=3 ttl=62 time=137 ms
+80 bytes from 192.168.252.130: icmp_seq=4 ttl=62 time=135 ms
+80 bytes from 192.168.252.130: icmp_seq=5 ttl=62 time=145 ms
+
+--- 192.168.252.130 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 48ms
+rtt min/avg/max/mdev = 132.677/137.555/145.375/4.258 ms, pipe 5, ipg/ewma 12.207/137.362 ms
+
+PC2-52#ping 192.168.252.2
+PING 192.168.252.2 (192.168.252.2) 72(100) bytes of data.
+80 bytes from 192.168.252.2: icmp_seq=1 ttl=62 time=300 ms
+80 bytes from 192.168.252.2: icmp_seq=2 ttl=62 time=301 ms
+80 bytes from 192.168.252.2: icmp_seq=3 ttl=62 time=483 ms
+80 bytes from 192.168.252.2: icmp_seq=4 ttl=62 time=492 ms
+80 bytes from 192.168.252.2: icmp_seq=5 ttl=62 time=531 ms
+
+--- 192.168.252.2 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 44ms
+rtt min/avg/max/mdev = 300.630/421.743/531.276/100.003 ms, pipe 5, ipg/ewma 11.142/367.953 ms
+
+PC2-52#ping 192.168.252.130
+PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
+80 bytes from 192.168.252.130: icmp_seq=1 ttl=62 time=142 ms
+80 bytes from 192.168.252.130: icmp_seq=2 ttl=62 time=133 ms
+80 bytes from 192.168.252.130: icmp_seq=3 ttl=62 time=131 ms
+80 bytes from 192.168.252.130: icmp_seq=4 ttl=62 time=127 ms
+80 bytes from 192.168.252.130: icmp_seq=5 ttl=62 time=118 ms
+
+--- 192.168.252.130 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 56ms
+rtt min/avg/max/mdev = 118.318/130.652/142.617/7.917 ms, pipe 5, ipg/ewma 14.026/136.083 ms
+
+PC3-52(config-if-Et1)#ping 192.168.252.130
+PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
+80 bytes from 192.168.252.130: icmp_seq=1 ttl=63 time=190 ms
+80 bytes from 192.168.252.130: icmp_seq=2 ttl=63 time=182 ms
+80 bytes from 192.168.252.130: icmp_seq=3 ttl=63 time=196 ms
+80 bytes from 192.168.252.130: icmp_seq=4 ttl=63 time=195 ms
+80 bytes from 192.168.252.130: icmp_seq=5 ttl=63 time=191 ms
+
+--- 192.168.252.130 ping statistics ---
+5 packets transmitted, 5 received, 0% packet loss, time 54ms
+rtt min/avg/max/mdev = 182.716/191.330/196.318/4.965 ms, pipe 5, ipg/ewma 13.680/190.911 ms

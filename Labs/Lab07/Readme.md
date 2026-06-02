@@ -2815,7 +2815,7 @@ rtt min/avg/max/mdev = 182.716/191.330/196.318/4.965 ms, pipe 5, ipg/ewma 13.680
 
 #### Сценарий №3 (Двойной обрыв):
 
-![img_1.png](Topology-Lab07-Test1.png)
+![img_1.png](Topology-Lab07-Test3.png)
 
 - Обрыв обеих линков от Leaf1-52 к Spine1-52 и Spine2-52 (оборваны прямые стыки со Spine).
 - PeerLink между Leaf1-52 и Leaf2-52 - в работе.

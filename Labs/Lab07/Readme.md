@@ -2804,6 +2804,8 @@ PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
 --- 192.168.252.130 ping statistics ---
 5 packets transmitted, 5 received, 0% packet loss, time 54ms
 rtt min/avg/max/mdev = 182.716/191.330/196.318/4.965 ms, pipe 5, ipg/ewma 13.680/190.911 ms
+```
+</details>
 
 #### Сценарий №3 (Двойной обрыв):
 - Обрыв обеих линков от Leaf1-52 к Spine1-52 и Spine2-52 (оборваны прямые стыки со Spine).

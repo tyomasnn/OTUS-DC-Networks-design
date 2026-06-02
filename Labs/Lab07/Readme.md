@@ -2489,8 +2489,6 @@ rtt min/avg/max/mdev = 166.618/173.258/177.396/4.163 ms, pipe 5, ipg/ewma 13.722
 ### Тестирование отказоустойчивости.
 #### Сценарий №1:
 
-![img_2.png](Topology-Lab07 Test1.png)
-
 - Обрыв линка от PC1-52 к Leaf2-52.
 - Линк PC1-52 к Leaf1-52 - в работе.
 
@@ -2570,6 +2568,8 @@ Port       Name                     Status       Vlan     Duplex Speed  Type    
 Po1        to Po2 Leaf3-52&Leaf4-52 connected    trunk    full   1G     N/A
 ```
 </details>
+
+![img_2.png](Topology-Lab07 Test1.png)
 
 #### Проверка наличия IP связности между устройствами "PC"
 
@@ -2651,8 +2651,6 @@ rtt min/avg/max/mdev = 165.733/168.203/173.130/2.685 ms, pipe 5, ipg/ewma 12.494
 </details>
 
 #### Сценарий №2 (зеркальный относительно Сценария №1):
-
-![img_3.png](Topology-Lab07 Test2.png)
 
 - Обрыв линка от PC1-52 к Leaf1-52.
 - Линк PC1-52 к Leaf2-52 - в работе.
@@ -2814,10 +2812,6 @@ rtt min/avg/max/mdev = 182.716/191.330/196.318/4.965 ms, pipe 5, ipg/ewma 13.680
 </details>
 
 #### Сценарий №3 (Двойной обрыв):
-
-![img_4.png](Topology-Lab07 Test3.png)
-
-<details>
 
 - Обрыв обеих линков от Leaf1-52 к Spine1-52 и Spine2-52 (оборваны прямые стыки со Spine).
 - PeerLink между Leaf1-52 и Leaf2-52 - в работе.

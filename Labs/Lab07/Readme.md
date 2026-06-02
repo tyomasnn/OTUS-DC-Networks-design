@@ -2804,3 +2804,102 @@ PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
 --- 192.168.252.130 ping statistics ---
 5 packets transmitted, 5 received, 0% packet loss, time 54ms
 rtt min/avg/max/mdev = 182.716/191.330/196.318/4.965 ms, pipe 5, ipg/ewma 13.680/190.911 ms
+
+#### Сценарий №3 (Двойной обрыв):
+- Обрыв обеих линков от Leaf1-52 к Spine1-52 и Spine2-52 (оборваны прямые стыки со Spine).
+- PeerLink между Leaf1-52 и Leaf2-52 - в работе.
+- Обрыв линка от PC1-52 к Leaf2-52.
+- Линк PC1-52 к Leaf1-52 - в работе.
+
+<details>
+<summary> Leaf1-52 diag </summary>
+  
+ ```
+Leaf1-52#sh bgp evpn summ
+BGP summary information for VRF default
+Router identifier 10.52.0.111, local AS number 4200052101
+Neighbor Status Codes: m - Under maintenance
+Description Neighbor V AS MsgRcvd MsgSent InQ OutQ Up/Down State PfxRcd PfxAcc
+Spine's 10.52.0.101 4 4200052101 176 120 0 0 01:19:04 Estab 26 26
+Spine's 10.52.0.102 4 4200052101 174 124 0 0 01:19:08 Estab 26 26
+
+Leaf1-52#sh ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+      O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+      E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+      N2 - OSPF NSSA external type2, B - Other BGP Routes,
+      B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+      I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+      A O - OSPF Summary, NG - Nexthop Group Static Route,
+      V - VXLAN Control Service, M - Martian,
+      DH - DHCP client installed default route,
+      DP - Dynamic Policy Route, L - VRF Leaked,
+      G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+O 10.52.0.1/32 [110/30] via 10.52.254.1, Vlan4094
+O 10.52.0.2/32 [110/30] via 10.52.254.1, Vlan4094
+C 10.52.0.11/32 is directly connected, Loopback0
+O 10.52.0.12/32 [110/20] via 10.52.254.1, Vlan4094
+O 10.52.0.13/32 [110/40] via 10.52.254.1, Vlan4094
+O 10.52.0.14/32 [110/40] via 10.52.254.1, Vlan4094
+O 10.52.0.101/32 [110/30] via 10.52.254.1, Vlan4094
+O 10.52.0.102/32 [110/30] via 10.52.254.1, Vlan4094
+C 10.52.0.111/32 is directly connected, Loopback1
+O 10.52.0.112/32 [110/20] via 10.52.254.1, Vlan4094
+O 10.52.0.113/32 [110/40] via 10.52.254.1, Vlan4094
+O 10.52.0.114/32 [110/40] via 10.52.254.1, Vlan4094
+O 10.52.1.2/31 [110/20] via 10.52.254.1, Vlan4094
+O 10.52.1.4/31 [110/30] via 10.52.254.1, Vlan4094
+O 10.52.1.6/31 [110/30] via 10.52.254.1, Vlan4094
+O 10.52.2.2/31 [110/20] via 10.52.254.1, Vlan4094
+O 10.52.2.4/31 [110/30] via 10.52.254.1, Vlan4094
+O 10.52.2.6/31 [110/30] via 10.52.254.1, Vlan4094
+
+Leaf1-52#show bgp evpn route-type mac-ip
+BGP routing table information for VRF default
+Router identifier 10.52.0.111, local AS number 4200052101
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+Network Next Hop Metric LocPref Weight Path
+* >Ec RD: 4200052101:1252 mac-ip 5000.00aa.5c3a
+10.52.0.113 - 100 0 i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+* ec RD: 4200052101:1252 mac-ip 5000.00aa.5c3a
+10.52.0.113 - 100 0 i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+* >Ec RD: 4200052101:1252 mac-ip 5000.00aa.5c3a 192.168.252.2
+10.52.0.113 - 100 0 i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+* ec RD: 4200052101:1252 mac-ip 5000.00aa.5c3a 192.168.252.2
+10.52.0.113 - 100 0 i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+* >Ec RD: 4200052101:1352 mac-ip 5000.00b7.4a5b
+10.52.0.113 - 100 0 i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+* ec RD: 4200052101:1352 mac-ip 5000.00b7.4a5b
+10.52.0.113 - 100 0 i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+* >Ec RD: 4200052101:1352 mac-ip 5000.00b7.4a5b 192.168.252.130
+10.52.0.113 - 100 0 i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+* ec RD: 4200052101:1352 mac-ip 5000.00b7.4a5b 192.168.252.130
+10.52.0.113 - 100 0 i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+```
+</details>
+
+#### Проверка наличия IP связности между устройствами "PC"
+
+<details>
+ 
+```
+PC1-52#ping 192.168.152.2
+PING 192.168.152.2 (192.168.152.2) 72(100) bytes of data.
+80 bytes from 192.168.152.2: icmp_seq=1 ttl=63 time=389 ms
+
+PC1-52#ping 192.168.252.2
+PING 192.168.252.2 (192.168.252.2) 72(100) bytes of data.
+80 bytes from 192.168.252.2: icmp_seq=1 ttl=62 time=150 ms
+
+PC1-52#ping 192.168.252.130
+PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
+80 bytes from 192.168.252.130: icmp_seq=1 ttl=62 time=166 ms

@@ -301,7 +301,7 @@ end
 <summary> Leaf1-52 </summary>
    
  ```
-Leaf1-52#sh run
+Leaf1-52# sh run
 ! Command: show running-config
 ! device: Leaf1-52 (vEOS-lab, EOS-4.29.2F)
 !
@@ -414,7 +414,11 @@ interface Vlan152
    ip virtual-router address 192.168.152.1
 !
 interface Vlan4094
+   mtu 9214
    ip address 10.52.254.0/31
+   ip ospf network point-to-point
+   ip ospf authentication-key 7 Gnq5kvFLB1s=
+   ip ospf area 0.0.0.0
 !
 interface Vxlan1
    vxlan source-interface Loopback1
@@ -444,15 +448,10 @@ router bgp 4200052101
    neighbor EVPN-OVERLAY update-source Loopback1
    neighbor EVPN-OVERLAY description Spine's
    neighbor EVPN-OVERLAY send-community extended
-   neighbor UNDERLAY-MLAG peer group
-   neighbor UNDERLAY-MLAG remote-as 4200052101
-   neighbor UNDERLAY-MLAG next-hop-self
-   neighbor UNDERLAY-MLAG description Leaf2-52
    neighbor 10.52.0.101 peer group EVPN-OVERLAY
    neighbor 10.52.0.101 remote-as 4200052101
    neighbor 10.52.0.102 peer group EVPN-OVERLAY
    neighbor 10.52.0.102 remote-as 4200052101
-   neighbor 10.52.254.1 peer group UNDERLAY-MLAG
    !
    vlan 152
       rd 4200052101:1152
@@ -468,7 +467,6 @@ router bgp 4200052101
       neighbor EVPN-OVERLAY activate
    !
    address-family ipv4
-      neighbor UNDERLAY-MLAG activate
       network 10.52.0.111/32
    !
    vrf vrf-vxlan
@@ -482,6 +480,8 @@ router ospf 1
    passive-interface default
    no passive-interface Ethernet1
    no passive-interface Ethernet2
+   passive-interface Port-Channel4094
+   no passive-interface Vlan4094
    redistribute connected
    max-lsa 12000
 !
@@ -605,7 +605,11 @@ interface Vlan152
    ip virtual-router address 192.168.152.1
 !
 interface Vlan4094
+   mtu 9214
    ip address 10.52.254.1/31
+   ip ospf network point-to-point
+   ip ospf authentication-key 7 Gnq5kvFLB1s=
+   ip ospf area 0.0.0.0
 !
 interface Vxlan1
    vxlan source-interface Loopback1
@@ -635,15 +639,10 @@ router bgp 4200052101
    neighbor EVPN-OVERLAY update-source Loopback1
    neighbor EVPN-OVERLAY description Spine's
    neighbor EVPN-OVERLAY send-community extended
-   neighbor UNDERLAY-MLAG peer group
-   neighbor UNDERLAY-MLAG remote-as 4200052101
-   neighbor UNDERLAY-MLAG next-hop-self
-   neighbor UNDERLAY-MLAG description Leaf1-52
    neighbor 10.52.0.101 peer group EVPN-OVERLAY
    neighbor 10.52.0.101 remote-as 4200052101
    neighbor 10.52.0.102 peer group EVPN-OVERLAY
    neighbor 10.52.0.102 remote-as 4200052101
-   neighbor 10.52.254.0 peer group UNDERLAY-MLAG
    !
    vlan 152
       rd 4200052101:1152
@@ -659,7 +658,6 @@ router bgp 4200052101
       neighbor EVPN-OVERLAY activate
    !
    address-family ipv4
-      neighbor UNDERLAY-MLAG activate
       network 10.52.0.112/32
    !
    vrf vrf-vxlan
@@ -673,6 +671,8 @@ router ospf 1
    passive-interface default
    no passive-interface Ethernet1
    no passive-interface Ethernet2
+   passive-interface Port-Channel4094
+   no passive-interface Vlan4094
    redistribute connected
    max-lsa 12000
 !
@@ -1444,9 +1444,9 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
  *  ec    RD: 4200052101:1252 auto-discovery 0 0000:0000:0000:0000:0001
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0001
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
- *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0001
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
@@ -1460,25 +1460,25 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
  *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0002
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0002
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0002
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  * >Ec    RD: 4200052101:1252 mac-ip 5000.00aa.5c3a
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  *  ec    RD: 4200052101:1252 mac-ip 5000.00aa.5c3a
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 4200052101:1252 mac-ip 5000.00aa.5c3a 192.168.252.2
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  *  ec    RD: 4200052101:1252 mac-ip 5000.00aa.5c3a 192.168.252.2
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 4200052101:1352 mac-ip 5000.00b7.4a5b
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  *  ec    RD: 4200052101:1352 mac-ip 5000.00b7.4a5b
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
- * >Ec    RD: 4200052101:1352 mac-ip 5000.00b7.4a5b 192.168.252.130
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
- *  ec    RD: 4200052101:1352 mac-ip 5000.00b7.4a5b 192.168.252.130
+ * >Ec    RD: 4200052101:1352 mac-ip 5000.00b7.4a5b 192.168.252.130
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1352 mac-ip 5000.00b7.4a5b 192.168.252.130
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >      RD: 4200052101:1052 imet 10.52.0.111
                                  -                     -       -       0       i
  * >      RD: 4200052101:1152 imet 10.52.0.111
@@ -1500,29 +1500,29 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
  *  ec    RD: 4200052101:1352 imet 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 4200052101:1252 imet 10.52.0.114
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  *  ec    RD: 4200052101:1252 imet 10.52.0.114
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
- * >Ec    RD: 4200052101:1352 imet 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
- *  ec    RD: 4200052101:1352 imet 10.52.0.114
+ * >Ec    RD: 4200052101:1352 imet 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1352 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.113
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
- *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
- *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
- *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  * >      RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
                                  -                     -       -       0       i
  * >      RD: 10.52.0.112:1 ip-prefix 192.168.52.0/24
@@ -1557,8 +1557,8 @@ BGP summary information for VRF default
 Router identifier 10.52.0.111, local AS number 4200052101
 Neighbor Status Codes: m - Under maintenance
   Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
-  Spine's                  10.52.0.101 4 4200052101      2203      1393    0    0 07:07:30 Estab   26     26
-  Spine's                  10.52.0.102 4 4200052101      2183      1383    0    0 07:07:37 Estab   26     26
+  Spine's                  10.52.0.101 4 4200052101       229       161    0    0 01:37:15 Estab   26     26
+  Spine's                  10.52.0.102 4 4200052101       235       165    0    0 01:37:18 Estab   26     26
 
 Leaf1-52#show bgp evpn instance vlan 52
 EVPN instance: VLAN 52
@@ -1594,9 +1594,9 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
  *  ec    RD: 4200052101:1252 auto-discovery 0 0000:0000:0000:0000:0001
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0001
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
- *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0001
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
@@ -1610,9 +1610,9 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
  *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0002
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0002
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
- *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0002
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
 
 Leaf1-52#show bgp evpn route-type ethernet-segment
 BGP routing table information for VRF default
@@ -1624,21 +1624,21 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
 
           Network                Next Hop              Metric  LocPref Weight  Path
  * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.113
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
- *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
- *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
- *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
 
 Leaf1-52#show mlag
 MLAG Configuration:
@@ -1689,29 +1689,29 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
  *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0001
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
- *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  * >Ec    RD: 4200052101:1352 auto-discovery 0 0000:0000:0000:0000:0002
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  *  ec    RD: 4200052101:1352 auto-discovery 0 0000:0000:0000:0000:0002
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0002
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
- *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0002
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0002
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0002
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  * >Ec    RD: 4200052101:1252 mac-ip 5000.00aa.5c3a
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  *  ec    RD: 4200052101:1252 mac-ip 5000.00aa.5c3a
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 4200052101:1252 mac-ip 5000.00aa.5c3a 192.168.252.2
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  *  ec    RD: 4200052101:1252 mac-ip 5000.00aa.5c3a 192.168.252.2
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 4200052101:1352 mac-ip 5000.00b7.4a5b
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  *  ec    RD: 4200052101:1352 mac-ip 5000.00b7.4a5b
@@ -1733,33 +1733,33 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
  * >      RD: 4200052101:1152 imet 10.52.0.112
                                  -                     -       -       0       i
  * >Ec    RD: 4200052101:1252 imet 10.52.0.113
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  *  ec    RD: 4200052101:1252 imet 10.52.0.113
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
- * >Ec    RD: 4200052101:1352 imet 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
- *  ec    RD: 4200052101:1352 imet 10.52.0.113
+ * >Ec    RD: 4200052101:1352 imet 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1352 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 4200052101:1252 imet 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  *  ec    RD: 4200052101:1252 imet 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  * >Ec    RD: 4200052101:1352 imet 10.52.0.114
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
- *  ec    RD: 4200052101:1352 imet 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1352 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
- *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
- *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114
@@ -1798,8 +1798,8 @@ BGP summary information for VRF default
 Router identifier 10.52.0.112, local AS number 4200052101
 Neighbor Status Codes: m - Under maintenance
   Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
-  Spine's                  10.52.0.101 4 4200052101      2205      1348    0    0 07:09:14 Estab   26     26
-  Spine's                  10.52.0.102 4 4200052101      2199      1354    0    0 07:09:24 Estab   26     26
+  Spine's                  10.52.0.101 4 4200052101       256       163    0    0 01:39:51 Estab   26     26
+  Spine's                  10.52.0.102 4 4200052101       265       163    0    0 01:39:50 Estab   26     26
 
 Leaf2-52#show bgp evpn instance vlan 52
 EVPN instance: VLAN 52
@@ -1839,17 +1839,17 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
  *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0001
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
- *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  * >Ec    RD: 4200052101:1352 auto-discovery 0 0000:0000:0000:0000:0002
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  *  ec    RD: 4200052101:1352 auto-discovery 0 0000:0000:0000:0000:0002
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
  * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0002
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
- *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0002
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0000:0002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0002
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0000:0002
@@ -1869,13 +1869,13 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
  *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
-                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
- *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0001 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
-                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
- *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
                                  10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
  * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114
                                  10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
  *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0000:0002 10.52.0.114

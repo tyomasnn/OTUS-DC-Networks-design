@@ -2568,6 +2568,8 @@ Po1        to Po2 Leaf3-52&Leaf4-52 connected    trunk    full   1G     N/A
 ```
 </details>
 
+![img_1.png](Topology-Lab07.png)
+
 #### Проверка наличия IP связности между устройствами "PC"
 
 <details>
@@ -2727,6 +2729,8 @@ Port       Name                     Status       Vlan     Duplex Speed  Type    
 Po1        to Po2 Leaf3-52&Leaf4-52 connected    trunk    full   1G     N/A
 ```
 </details>
+
+![img_1.png](Topology-Lab07.png)
 
 #### Проверка наличия IP связности между устройствами "PC"
 
@@ -2888,6 +2892,8 @@ Network Next Hop Metric LocPref Weight Path
 10.52.0.113 - 100 0 i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
 ```
 </details>
+
+![img_1.png](Topology-Lab07.png)
 
 #### Проверка наличия IP связности между устройствами "PC"
 

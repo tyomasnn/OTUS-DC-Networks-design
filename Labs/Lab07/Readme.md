@@ -2817,6 +2817,8 @@ rtt min/avg/max/mdev = 182.716/191.330/196.318/4.965 ms, pipe 5, ipg/ewma 13.680
 
 ![img_4.png](Topology-Lab07 Test3.png)
 
+<details>
+
 - Обрыв обеих линков от Leaf1-52 к Spine1-52 и Spine2-52 (оборваны прямые стыки со Spine).
 - PeerLink между Leaf1-52 и Leaf2-52 - в работе.
 - Обрыв линка от PC1-52 к Leaf2-52.

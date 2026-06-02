@@ -2569,8 +2569,6 @@ Po1        to Po2 Leaf3-52&Leaf4-52 connected    trunk    full   1G     N/A
 ```
 </details>
 
-![img_2.png](Topology-Lab07 Test1.png)
-
 #### Проверка наличия IP связности между устройствами "PC"
 
 <details>

@@ -2910,7 +2910,3 @@ PING 192.168.252.2 (192.168.252.2) 72(100) bytes of data.
 PC1-52#ping 192.168.252.130
 PING 192.168.252.130 (192.168.252.130) 72(100) bytes of data.
 80 bytes from 192.168.252.130: icmp_seq=1 ttl=62 time=166 ms
-```
-</details>
-
-

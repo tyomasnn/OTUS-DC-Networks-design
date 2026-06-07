@@ -6,7 +6,7 @@
 ### В среде виртуализации EVE-NG cобрана и настроена топология Underlay/Overlay сети Spine-Leaf в качестве которых используются L3-коммутаторы Arista с подключенными к ним устройствами "PC" имитирующими потребителей сервиса.
 - 1: для настройки сегмента Underlay используется протокол динамической маршрутизации ISIS;
 - 2: для настройки сегмента Overlay используется протокол динамической маршрутизации eBGP;
-- 3: На Spine1-63 и Spine2-63 настроена опция BGP "allowas-in 1", позволяющая им принимать маршруты, в AS_PATH которых встречается номер их собственной AS не более одного раза;
+- 3: На Spine1-63,  Spine2-63, Leaf1-63, Leaf2-63, Leaf3-63 настроена опция BGP "allowas-in 1", позволяющая им принимать маршруты, в AS_PATH которых встречается номер их собственной AS не более одного раза;
 - 4: На Leaf4-63 настроена опция BGP "allowas-in 2", позволяющая ему принимать маршруты, в AS_PATH которых встречается номер их собственной AS не более двух раз;
 - 5 На Router-63 выполнена настройка суммирования префиксов, полученных из vrf "vrf-SEGMENT1" и vrf "vrf-SEGMENT2" VxLan фабрики и анонса в обратном направлении только суммарных префиксов:<br>
    * aggregate-address 192.168.63.0/24 summary-only;<br>
@@ -22,44 +22,46 @@
 
 <details>
   
-Device|Interface|IP Address|Subnet Mask|Gateway
----|---|---|---|---
-Spine1-63|Loopback0 (Underlay)|10.63.0.1|/32
--|Loopback1 (Overlay)|10.63.0.101|/32
--|Ethernet1|10.63.1.0|/31
--|Ethernet2|10.63.1.2|/31
--|Ethernet3|10.63.1.4|/31
--|Ethernet4|10.63.1.6|/31
-Spine2-63|Loopback0 (Underlay)|10.63.0.2|/32
--|Loopback1 (Overlay)|10.63.0.102|/32
--|Ethernet1|10.63.2.0|/31
--|Ethernet2|10.63.2.2|/31
--|Ethernet3|10.63.2.4|/31
--|Ethernet4|10.63.2.6|/31
-Leaf1-63|Loopback0 (Underlay)|10.63.0.11|/32
--|Loopback1 (Overlay)|10.63.0.111|/32
--|Ethernet1|10.63.1.1|/31
--|Ethernet2|10.63.2.1|/31
--|Vlan63 (GW for Net PC1-63)|192.168.63.1|/25
-Leaf2-63|Loopback0 (Underlay)|10.63.0.12|/32
--|Loopback1 (Overlay)|10.63.0.112|/32
--|Ethernet1|10.63.1.3|/31
--|Ethernet2|10.63.2.3|/31
--|Vlan163 (GW for Net PC2-63)|192.168.163.1|/25
-Leaf3-63|Loopback0 (Underlay)|10.63.0.13|/32
--|Loopback1 (Overlay)|10.63.0.113|/32
--|Ethernet1|10.63.1.5|/31
--|Ethernet2|10.63.2.5|/31
--|Vlan1063 (GW for Net PC3-63)|192.168.63.129|/25
-Leaf4-63|Loopback0 (Underlay)|10.63.0.14|/32
--|Loopback1 (Overlay)|10.63.0.114|/32
--|Ethernet1|10.63.1.7|/31
--|Ethernet2|10.63.2.7|/31
--|Vlan1163 (GW for Net PC3-63)|192.168.163.129|/25
-PC1-63|eth0|192.168.63.2|/25|192.168.63.1
-PC2-63|eth0|192.168.163.2|/25|192.168.163.1
-PC3-63|eth0|192.168.63.130|/25|192.168.63.129
-PC4-63|eth0|192.168.163.130|/25|192.168.163.129
+Device|Interface|IP Address|Subnet Mask|Gateway|vrf
+---|---|---|---|---|---
+Spine1-63|Loopback0 (Underlay)|10.63.0.1|/32|-|-
+-|Loopback1 (Overlay)|10.63.0.101|/32|-|-
+-|Ethernet1|10.63.1.0|/31|-|-
+-|Ethernet2|10.63.1.2|/31|-|-
+-|Ethernet3|10.63.1.4|/31|-|-
+-|Ethernet4|10.63.1.6|/31|-|-
+Spine2-63|Loopback0 (Underlay)|10.63.0.2|/32|-|-
+-|Loopback1 (Overlay)|10.63.0.102|/32|-|-
+-|Ethernet1|10.63.2.0|/31|-|-
+-|Ethernet2|10.63.2.2|/31|-|-
+-|Ethernet3|10.63.2.4|/31|-|-
+-|Ethernet4|10.63.2.6|/31|-|-
+Leaf1-63|Loopback0 (Underlay)|10.63.0.11|/32|-|-
+-|Loopback1 (Overlay)|10.63.0.111|/32|-|-
+-|Ethernet1|10.63.1.1|/31|-|-
+-|Ethernet2|10.63.2.1|/31|-|-
+-|Vlan63 (GW for Net 192.168.63.0/25)|192.168.63.1|/25|-|vrf-SEGMENT1
+-|Vlan163 (GW for Net 192.168.163.0/25)|192.168.63.1|/25|-|vrf-SEGMENT2
+Leaf2-63|Loopback0 (Underlay)|10.63.0.12|/32|-|-
+-|Loopback1 (Overlay)|10.63.0.112|/32|-|-
+-|Ethernet1|10.63.1.3|/31|-|-
+-|Ethernet2|10.63.2.3|/31|-|-
+-|Vlan163 (GW for Net 192.168.163.0/25)|192.168.163.1|/25|-|vrf-SEGMENT2
+Leaf3-63|Loopback0 (Underlay)|10.63.0.13|/32|-|-
+-|Loopback1 (Overlay)|10.63.0.113|/32|-|-
+-|Ethernet1|10.63.1.5|/31|-|-
+-|Ethernet2|10.63.2.5|/31|-|-
+-|Vlan1063 (GW for Net 192.168.63.128/25)|192.168.63.129|/25|-|vrf-SEGMENT1
+Leaf4-63|Loopback0 (Underlay)|10.63.0.14|/32|-|-
+-|Loopback1 (Overlay)|10.63.0.114|/32|-|-
+-|Ethernet1|10.63.1.7|/31|-|-
+-|Ethernet2|10.63.2.7|/31|-|-
+-|Vlan1163 (GW for Net 192.168.163.128/25)|192.168.163.129|/25|-|vrf-SEGMENT2
+PC1-63|eth0|192.168.63.2|/25|192.168.63.1|vrf-SEGMENT1
+PC2-63|eth0|192.168.163.2|/25|192.168.163.1|vrf-SEGMENT2
+PC3-63|eth0|192.168.63.130|/25|192.168.63.129|vrf-SEGMENT1
+PC4-63|eth0|192.168.163.130|/25|192.168.163.129|vrf-SEGMENT2
+PC5-63|eth0|192.168.163.3|/25|192.168.163.1|vrf-SEGMENT2
 
 </details>
 
@@ -316,7 +318,12 @@ spanning-tree mode mstp
 vlan 63
    name Overlay_DC63_vrf-SEGMENT1
 !
+vlan 163
+   name Overlay_DC63_vrf-SEGMENT2
+!
 vrf instance vrf-SEGMENT1
+!
+vrf instance vrf-SEGMENT2
 !
 interface Ethernet1
    description to Eth1 Spine1-63
@@ -349,6 +356,8 @@ interface Ethernet5
 interface Ethernet6
 !
 interface Ethernet7
+   description to Eth0 PC5-63
+   switchport access vlan 163
 !
 interface Ethernet8
    description to Eth0 PC1-63
@@ -368,17 +377,26 @@ interface Management1
 !
 interface Vlan63
    vrf vrf-SEGMENT1
-   ip address 192.168.63.1/25
+   ip address virtual 192.168.63.1/25
+!
+interface Vlan163
+   vrf vrf-SEGMENT2
+   ip address virtual 192.168.163.1/25
 !
 interface Vxlan1
    vxlan source-interface Loopback1
    vxlan udp-port 4789
    vxlan vlan 63 vni 10063
+   vxlan vlan 163 vni 10163
    vxlan vrf vrf-SEGMENT1 vni 100063
+   vxlan vrf vrf-SEGMENT2 vni 100163
    vxlan learn-restrict any
+!
+ip virtual-router mac-address 00:00:00:63:10:01
 !
 ip routing
 ip routing vrf vrf-SEGMENT1
+ip routing vrf vrf-SEGMENT2
 !
 router bgp 4200063111
    neighbor EVPN-OVERLAY peer group
@@ -388,7 +406,14 @@ router bgp 4200063111
    neighbor EVPN-OVERLAY ebgp-multihop 3
    neighbor EVPN-OVERLAY send-community extended
    neighbor 10.63.0.101 peer group EVPN-OVERLAY
+   neighbor 10.63.0.101 allowas-in 1
    neighbor 10.63.0.102 peer group EVPN-OVERLAY
+   neighbor 10.63.0.102 allowas-in 1
+   !
+   vlan 163
+      rd 4200063111:10163
+      route-target both 163:10163
+      redistribute learned
    !
    vlan 63
       rd 4200063111:10063
@@ -402,6 +427,12 @@ router bgp 4200063111
       rd 10.63.0.111:1
       route-target import evpn 1:100063
       route-target export evpn 1:100063
+      redistribute connected
+   !
+   vrf vrf-SEGMENT2
+      rd 10.63.0.111:2
+      route-target import evpn 2:100163
+      route-target export evpn 2:100163
       redistribute connected
 !
 router isis UNDERLAY
@@ -489,7 +520,7 @@ interface Management1
 !
 interface Vlan163
    vrf vrf-SEGMENT2
-   ip address 192.168.163.1/25
+   ip address virtual 192.168.163.1/25
 !
 interface Vxlan1
    vxlan source-interface Loopback1
@@ -497,6 +528,8 @@ interface Vxlan1
    vxlan vlan 163 vni 10163
    vxlan vrf vrf-SEGMENT2 vni 100163
    vxlan learn-restrict any
+!
+ip virtual-router mac-address 00:00:00:63:10:02
 !
 ip routing
 ip routing vrf vrf-SEGMENT2
@@ -509,7 +542,9 @@ router bgp 4200063112
    neighbor EVPN-OVERLAY ebgp-multihop 3
    neighbor EVPN-OVERLAY send-community extended
    neighbor 10.63.0.101 peer group EVPN-OVERLAY
+   neighbor 10.63.0.101 allowas-in 1
    neighbor 10.63.0.102 peer group EVPN-OVERLAY
+   neighbor 10.63.0.102 allowas-in 1
    !
    vlan 163
       rd 4200063112:10163
@@ -610,7 +645,7 @@ interface Management1
 !
 interface Vlan1063
    vrf vrf-SEGMENT1
-   ip address 192.168.63.129/25
+   ip address virtual 192.168.63.129/25
 !
 interface Vxlan1
    vxlan source-interface Loopback1
@@ -618,6 +653,8 @@ interface Vxlan1
    vxlan vlan 1063 vni 11063
    vxlan vrf vrf-SEGMENT1 vni 100063
    vxlan learn-restrict any
+!
+ip virtual-router mac-address 00:00:00:63:10:03
 !
 ip routing
 ip routing vrf vrf-SEGMENT1
@@ -630,7 +667,9 @@ router bgp 4200063113
    neighbor EVPN-OVERLAY ebgp-multihop 3
    neighbor EVPN-OVERLAY send-community extended
    neighbor 10.63.0.101 peer group EVPN-OVERLAY
+   neighbor 10.63.0.101 allowas-in 1
    neighbor 10.63.0.102 peer group EVPN-OVERLAY
+   neighbor 10.63.0.102 allowas-in 1
    !
    vlan 1063
       rd 4200063113:11063
@@ -747,7 +786,7 @@ interface Management1
 !
 interface Vlan1163
    vrf vrf-SEGMENT2
-   ip address 192.168.163.129/25
+   ip address virtual 192.168.163.129/25
 !
 interface Vxlan1
    vxlan source-interface Loopback1
@@ -756,6 +795,8 @@ interface Vxlan1
    vxlan vrf vrf-SEGMENT1 vni 100063
    vxlan vrf vrf-SEGMENT2 vni 100163
    vxlan learn-restrict any
+!
+ip virtual-router mac-address 00:00:00:63:10:04
 !
 ip routing
 ip routing vrf vrf-SEGMENT1
@@ -943,9 +984,115 @@ RHOST:PORT  : 127.0.0.1:30000
 MTU         : 1500
 ```
 </details>
+<details>
+<summary> PC5-52 </summary>
+   
+ ```
+PC5-63> sh ip
+
+NAME        : PC5-63[1]
+IP/MASK     : 192.168.163.3/25
+GATEWAY     : 192.168.163.1
+DNS         :
+MAC         : 00:50:79:66:68:32
+LPORT       : 20000
+RHOST:PORT  : 127.0.0.1:30000
+MTU         : 1500
+```
+</details>
 
 #### Диагностика оборудования.
 
+<details>
+<summary> Spine1-63 diag </summary>
+ 
+ ```
+Spine1-63#show bgp evpn route-type ip-prefix ipv4
+BGP routing table information for VRF default
+Router identifier 10.63.0.101, local AS number 4200063101
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 10.63.0.114:1 ip-prefix 10.63.63.0/31
+                                 10.63.0.114           -       100     0       4200063114 i
+ * >      RD: 10.63.0.114:2 ip-prefix 10.63.63.0/31
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.114:1 ip-prefix 10.63.163.0/31
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.114:2 ip-prefix 10.63.163.0/31
+                                 10.63.0.114           -       100     0       4200063114 i
+ * >      RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 4200063101 i
+ * >      RD: 10.63.0.114:2 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 4200063101 i
+ * >      RD: 10.63.0.111:1 ip-prefix 192.168.63.0/25
+                                 10.63.0.111           -       100     0       4200063111 i
+ * >      RD: 10.63.0.113:1 ip-prefix 192.168.63.128/25
+                                 10.63.0.113           -       100     0       4200063113 i
+ * >      RD: 10.63.0.114:1 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.111           -       100     0       4200063111 i
+ * >      RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.112           -       100     0       4200063112 i
+ * >      RD: 10.63.0.114:2 ip-prefix 192.168.163.128/25
+                                 10.63.0.114           -       100     0       4200063114 i
+```
+</details>
+<details>
+<summary> Spine2-63 diag </summary>
+ 
+ ```
+Spine2-63#show bgp evpn route-type ip-prefix ipv4
+BGP routing table information for VRF default
+Router identifier 10.63.0.102, local AS number 4200063101
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 10.63.0.114:1 ip-prefix 10.63.63.0/31
+                                 10.63.0.114           -       100     0       4200063114 i
+ * >      RD: 10.63.0.114:2 ip-prefix 10.63.63.0/31
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.114:1 ip-prefix 10.63.163.0/31
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.114:2 ip-prefix 10.63.163.0/31
+                                 10.63.0.114           -       100     0       4200063114 i
+ * >      RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 4200063101 i
+ * >      RD: 10.63.0.114:2 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 4200063101 i
+ * >      RD: 10.63.0.111:1 ip-prefix 192.168.63.0/25
+                                 10.63.0.111           -       100     0       4200063111 i
+ *        RD: 10.63.0.111:1 ip-prefix 192.168.63.0/25
+                                 10.63.0.111           -       100     0       4200063114 4200063101 4200063111 i
+ * >      RD: 10.63.0.113:1 ip-prefix 192.168.63.128/25
+                                 10.63.0.113           -       100     0       4200063113 i
+ *        RD: 10.63.0.113:1 ip-prefix 192.168.63.128/25
+                                 10.63.0.113           -       100     0       4200063114 4200063101 4200063113 i
+ * >      RD: 10.63.0.114:1 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.111           -       100     0       4200063111 i
+ *        RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.111           -       100     0       4200063114 4200063101 4200063111 i
+ * >      RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.112           -       100     0       4200063112 i
+ *        RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.112           -       100     0       4200063114 4200063101 4200063112 i
+ * >      RD: 10.63.0.114:2 ip-prefix 192.168.163.128/25
+                                 10.63.0.114           -       100     0       4200063114 i
+ ```
+</details>
 <details>
 <summary> Leaf1-63 diag </summary>
  
@@ -973,6 +1120,29 @@ Gateway of last resort is not set
  B E      192.168.63.128/25 [200/0] via VTEP 10.63.0.113 VNI 100063 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
  B E      192.168.63.0/24 [200/0] via VTEP 10.63.0.114 VNI 100063 router-mac 50:00:00:26:10:0e local-interface Vxlan1
  B E      192.168.163.0/24 [200/0] via VTEP 10.63.0.114 VNI 100063 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+
+Leaf1-63#show ip route vrf vrf-SEGMENT2
+
+VRF: vrf-SEGMENT2
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B E      10.63.63.0/31 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ B E      10.63.163.0/31 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ B E      192.168.63.0/24 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ C        192.168.163.0/25 is directly connected, Vlan163
+ B E      192.168.163.128/25 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1 B E      192.168.163.0/24 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1
 
 Leaf1-63#show bgp evpn route-type ip-prefix ipv4
 BGP routing table information for VRF default
@@ -1021,6 +1191,8 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
                                  10.63.0.114           -       100     0       4200063101 4200063114 4200063163 4200063114 i
  *        RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
                                  10.63.0.114           -       100     0       4200063101 4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 -                     -       -       0       i
  * >      RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
                                  10.63.0.112           -       100     0       4200063101 4200063112 i
  *        RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
@@ -1056,8 +1228,7 @@ Gateway of last resort is not set
  B E      10.63.163.0/31 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1
  B E      192.168.63.0/24 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1
  C        192.168.163.0/25 is directly connected, Vlan163
- B E      192.168.163.128/25 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1
- B E      192.168.163.0/24 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ B E      192.168.163.128/25 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1 B E      192.168.163.0/24 [200/0] via VTEP 10.63.0.114 VNI 100163 router-mac 50:00:00:26:10:0e local-interface Vxlan1
 
 Leaf2-63#show bgp evpn route-type ip-prefix ipv4
 BGP routing table information for VRF default
@@ -1108,6 +1279,10 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
                                  10.63.0.114           -       100     0       4200063101 4200063114 4200063163 4200063114 i
  *        RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
                                  10.63.0.114           -       100     0       4200063101 4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.111           -       100     0       4200063101 4200063111 i
+ *        RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.111           -       100     0       4200063101 4200063111 i
  * >      RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
                                  -                     -       -       0       i
  * >      RD: 10.63.0.114:2 ip-prefix 192.168.163.128/25
@@ -1191,6 +1366,10 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
                                  10.63.0.114           -       100     0       4200063101 4200063114 4200063163 4200063114 i
  *        RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
                                  10.63.0.114           -       100     0       4200063101 4200063114 4200063163 4200063114 i
+ * >      RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.111           -       100     0       4200063101 4200063111 i
+ *        RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.111           -       100     0       4200063101 4200063111 i
  * >      RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
                                  10.63.0.112           -       100     0       4200063101 4200063112 i
  *        RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
@@ -1286,6 +1465,10 @@ AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Li
                                  -                     -       100     0       4200063163 4200063114 i
  * >      RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
                                  -                     -       100     0       4200063163 4200063114 i
+ * >      RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.111           -       100     0       4200063101 4200063111 i
+ *        RD: 10.63.0.111:2 ip-prefix 192.168.163.0/25
+                                 10.63.0.111           -       100     0       4200063101 4200063111 i
  * >      RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
                                  10.63.0.112           -       100     0       4200063101 4200063112 i
  *        RD: 10.63.0.112:2 ip-prefix 192.168.163.0/25
@@ -1404,6 +1587,10 @@ PC1-63> ping 192.168.163.130
 
 84 bytes from 192.168.163.130 icmp_seq=1 ttl=60 time=371.413 ms
 
+PC1-63> ping 192.168.163.3
+
+84 bytes from 192.168.163.3 icmp_seq=1 ttl=59 time=586.581 ms
+
 PC2-63> ping 192.168.63.130
 
 84 bytes from 192.168.63.130 icmp_seq=1 ttl=59 time=110.361 ms
@@ -1412,6 +1599,18 @@ PC2-63> ping 192.168.163.130
 
 84 bytes from 192.168.163.130 icmp_seq=1 ttl=62 time=42.092 ms
 
+PC2-63> ping 192.168.163.3
+
+84 bytes from 192.168.163.3 icmp_seq=1 ttl=64 time=45.929 ms
+
 PC3-63> ping 192.168.163.130
 
 84 bytes from 192.168.163.130 icmp_seq=1 ttl=60 time=85.153 ms
+
+PC3-63> ping 192.168.163.3
+
+84 bytes from 192.168.163.3 icmp_seq=1 ttl=59 time=116.192 ms
+
+PC4-63> ping 192.168.163.3
+
+84 bytes from 192.168.163.3 icmp_seq=1 ttl=62 time=100.015 ms

@@ -1643,14 +1643,6 @@ interface Loopback1
 !
 interface Management1
 !
-interface Vlan254
-   vrf vrf-DATA
-   ip address virtual 192.168.254.1/24
-!
-interface Vlan255
-   vrf vrf-MGMT
-   ip address virtual 192.168.255.1/24
-!
 interface Vxlan1
    vxlan source-interface Loopback1
    vxlan udp-port 4789

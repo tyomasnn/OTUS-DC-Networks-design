@@ -3639,6 +3639,3120 @@ RHOST:PORT  : 127.0.0.1:30000
 MTU         : 1500
 ```
 </details>
+</details>
+
+### Диагностика оборудования.
+#### Сайт "DC52":
+
+</details>
+<details>
+<summary> RouteServer-1 </summary>
+
+ ```
+RouteServer-1#show bgp summary
+BGP summary information for VRF default
+Router identifier 10.52.0.0, local AS number 4200000000
+Neighbor             AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+----------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.52.1.253  4200052101 Established   IPv4 Unicast            Negotiated              4          4
+10.52.1.253  4200052101 Established   L2VPN EVPN              Negotiated             10         10
+10.52.1.255  4200052101 Established   IPv4 Unicast            Negotiated              4          4
+10.52.1.255  4200052101 Established   L2VPN EVPN              Negotiated             10         10
+10.63.1.253  4200063101 Established   IPv4 Unicast            Negotiated              4          4
+10.63.1.253  4200063101 Established   L2VPN EVPN              Negotiated             10         10
+10.63.1.255  4200063101 Established   IPv4 Unicast            Negotiated              4          4
+10.63.1.255  4200063101 Established   L2VPN EVPN              Negotiated             10         10
+
+RouteServer-1#sh bgp evpn summary
+BGP summary information for VRF default
+Router identifier 10.52.0.0, local AS number 4200000000
+Neighbor Status Codes: m - Under maintenance
+  Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  BGWs                     10.52.1.253 4 4200052101     11743     11863    0    0 13:48:08 Estab   10     10
+  BGWs                     10.52.1.255 4 4200052101     11740     11845    0    0 11:15:23 Estab   10     10
+  BGWs                     10.63.1.253 4 4200063101     13571     10758    0    0 11:57:32 Estab   10     10
+  BGWs                     10.63.1.255 4 4200063101     13472     10679    0    0 11:42:24 Estab   10     10
+
+RouteServer-1#show ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ C        10.52.0.0/32 is directly connected, Loopback0
+ B E      10.52.0.98/32 [200/0] via 10.52.1.253, Ethernet1
+                                via 10.52.1.255, Ethernet2
+ B E      10.52.0.99/32 [200/0] via 10.52.1.253, Ethernet1
+                                via 10.52.1.255, Ethernet2
+ B E      10.52.0.198/32 [200/0] via 10.52.1.253, Ethernet1
+                                 via 10.52.1.255, Ethernet2
+ B E      10.52.0.199/32 [200/0] via 10.52.1.253, Ethernet1
+                                 via 10.52.1.255, Ethernet2
+ C        10.52.1.252/31 is directly connected, Ethernet1
+ C        10.52.1.254/31 is directly connected, Ethernet2
+ B E      10.63.0.98/32 [200/0] via 10.63.1.253, Ethernet3
+                                via 10.63.1.255, Ethernet4
+ B E      10.63.0.99/32 [200/0] via 10.63.1.253, Ethernet3
+                                via 10.63.1.255, Ethernet4
+ B E      10.63.0.198/32 [200/0] via 10.63.1.253, Ethernet3
+                                 via 10.63.1.255, Ethernet4
+ B E      10.63.0.199/32 [200/0] via 10.63.1.253, Ethernet3
+                                 via 10.63.1.255, Ethernet4
+ C        10.63.1.252/31 is directly connected, Ethernet3
+ C        10.63.1.254/31 is directly connected, Ethernet4
+ ```
+</details>
+<details>
+<summary> BGW1-52 </summary>
+   
+ ```
+BGW1-52#show bgp summary
+BGP summary information for VRF default
+Router identifier 10.52.0.198, local AS number 4200052101
+Neighbor             AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+----------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.52.0.101  4200052101 Established   IPv4 Unicast            Negotiated              2          2
+10.52.0.101  4200052101 Established   L2VPN EVPN              Negotiated             71         71
+10.52.0.102  4200052101 Established   IPv4 Unicast            Negotiated              2          2
+10.52.0.102  4200052101 Established   L2VPN EVPN              Negotiated             69         69
+10.52.1.252  4200000000 Established   IPv4 Unicast            Negotiated              4          4
+10.52.1.252  4200000000 Established   L2VPN EVPN              Negotiated             11         11
+10.52.2.252  4200000000 Established   IPv4 Unicast            Negotiated              4          4
+10.52.2.252  4200000000 Established   L2VPN EVPN              Negotiated             11         11
+
+BGW1-52#show bgp evpn summary
+BGP summary information for VRF default
+Router identifier 10.52.0.198, local AS number 4200052101
+Neighbor Status Codes: m - Under maintenance
+  Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  Spine's                  10.52.0.101 4 4200052101     32651      9616    0    0 11:51:41 Estab   71     71
+  Spine's                  10.52.0.102 4 4200052101     32841      9390    0    0 13:10:01 Estab   69     69
+  RouteServer's            10.52.1.252 4 4200000000     11511     11801    0    0 13:56:22 Estab   11     11
+  RouteServer's            10.52.2.252 4 4200000000     10191     11342    0    0 13:11:30 Estab   11     11
+
+BGW1-52#show ip route vrf vrf-MGMT
+
+VRF: vrf-MGMT
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B I      192.168.52.11/32 [200/0] via VTEP 10.52.0.112 VNI 10015 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+ B I      192.168.52.12/32 [200/0] via VTEP 10.52.0.112 VNI 10015 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+ B I      192.168.52.13/32 [200/0] via VTEP 10.52.0.114 VNI 10015 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.52.14/32 [200/0] via VTEP 10.52.0.114 VNI 10015 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.52.0/24 [200/0] via VTEP 10.52.0.113 VNI 10015 router-mac 50:00:00:15:f4:e8 local-interface Vxlan1
+                                  via VTEP 10.52.0.114 VNI 10015 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B E      192.168.63.0/24 [200/0] via VTEP 10.63.0.198 VNI 10015 router-mac 50:00:00:2c:6b:2e local-interface Vxlan1
+ C        192.168.255.0/24 is directly connected, Vlan255
+
+BGW1-52#show ip route vrf vrf-DATA
+
+VRF: vrf-DATA
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B I      192.168.152.11/32 [200/0] via VTEP 10.52.0.112 VNI 10019 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+ B I      192.168.152.13/32 [200/0] via VTEP 10.52.0.114 VNI 10019 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.152.14/32 [200/0] via VTEP 10.52.0.114 VNI 10019 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.152.0/24 [200/0] via VTEP 10.52.0.111 VNI 10019 router-mac 50:00:00:d5:5d:c0 local-interface Vxlan1
+                                   via VTEP 10.52.0.113 VNI 10019 router-mac 50:00:00:15:f4:e8 local-interface Vxlan1
+                                   via VTEP 10.52.0.112 VNI 10019 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+                                   via VTEP 10.52.0.114 VNI 10019 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B E      192.168.163.0/24 [200/0] via VTEP 10.63.0.198 VNI 10019 router-mac 50:00:00:2c:6b:2e local-interface Vxlan1
+ C        192.168.254.0/24 is directly connected, Vlan254
+
+BGW1-52#show interfaces vxlan 1
+Vxlan1 is up, line protocol is up (connected)
+  Hardware is Vxlan
+  Source interface is Loopback1 and is active with 10.52.0.198
+  Listening on UDP port 4789
+  Replication/Flood Mode is headend with Flood List Source: EVPN
+  Remote MAC learning via EVPN
+  VNI mapping to VLANs
+  Static VLAN to VNI mapping is
+    [254, 1254]       [255, 1255]       [374, 1374]
+  Dynamic VLAN to VNI mapping for 'evpn' is
+    [4093, 10019]     [4094, 10015]
+  Note: All Dynamic VLANs used by VCS are internal VLANs.
+        Use 'show vxlan vni' for details.
+  Static VRF to VNI mapping is
+   [vrf-DATA, 10019]
+   [vrf-MGMT, 10015]
+  Headend replication flood vtep list is:
+   254 10.52.0.199
+   255 10.52.0.199
+   374 10.52.0.111     10.52.0.112     10.52.0.113     10.52.0.114     10.52.0.199
+       10.63.0.199     10.63.0.198
+  Shared Router MAC is 0000.0000.0000
+  VTEP to VTEP bridging to remote domain is enabled
+
+BGW1-52#show bgp evpn
+BGP routing table information for VRF default
+Router identifier 10.52.0.198, local AS number 4200052101
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1254 auto-discovery 0 0000:0000:0000:0052:5001
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1255 auto-discovery 0 0000:0000:0000:0052:5001
+                                 -                     -       -       0       i
+ * >      RD: 10.52.0.198:1 auto-discovery 0000:0000:0000:0052:5001
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.199:1 auto-discovery 0000:0000:0000:0052:5001
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.199:1 auto-discovery 0000:0000:0000:0052:5001
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1255 mac-ip 0050.7966.6806
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1255 mac-ip 0050.7966.6806 192.168.255.2
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1254 mac-ip 0050.7966.6807
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1254 mac-ip 0050.7966.6807
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *        RD: 4200052101:1254 mac-ip 0050.7966.6807
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1254 mac-ip 0050.7966.6807 192.168.254.2
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1254 mac-ip 0050.7966.6807 192.168.254.2
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *        RD: 4200052101:1254 mac-ip 0050.7966.6807 192.168.254.2
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.003b.34d4
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.003b.34d4
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 mac-ip 5000.003b.34d4
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1374 mac-ip 5000.003b.34d4
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4 192.168.52.12
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4 192.168.52.12
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.0042.0717 192.168.52.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 mac-ip 5000.0042.0717 192.168.52.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.0042.0717 192.168.152.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.0042.0717 192.168.152.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.00aa.5c3a 192.168.52.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 mac-ip 5000.00aa.5c3a 192.168.52.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a 192.168.152.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a 192.168.152.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b 192.168.52.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b 192.168.52.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b 192.168.152.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b 192.168.152.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >      RD: 4200052101:1374 mac-ip 5000.00d3.e57e
+                                 -                     -       100     0       4200000000 4200063101 i
+ * >      RD: 4200052101:1374 mac-ip 5000.003b.34d4 remote
+                                 -                     -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1374 mac-ip 5000.0042.0717 remote
+                                 -                     -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200063101:1374 mac-ip 5000.00d3.e57e remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 4200063101:1374 mac-ip 5000.00d3.e57e remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1254 imet 10.52.0.198
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1255 imet 10.52.0.198
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1374 imet 10.52.0.198
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200052101:1254 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1254 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1255 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1255 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1374 imet 10.52.0.198 remote
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.198 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 4200063101:1374 imet 10.63.0.198 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.199 remote
+                                 10.63.0.199           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 4200063101:1374 imet 10.63.0.199 remote
+                                 10.63.0.199           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >      RD: 10.52.0.198:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.198
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.199:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.199:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *        RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *        RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >      RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >      RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.52.0.114           -       100     0       i
+ *  ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.52.0.113           -       100     0       i
+ * >Ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *        RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.111           -       100     0       i
+ *  ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.111           -       100     0       i
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.112           -       100     0       i
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.112           -       100     0       i
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.113           -       100     0       i
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.113           -       100     0       i
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.114           -       100     0       i
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.114           -       100     0       i
+ * >Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *        RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >      RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24 remote
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.199           -       100     0       i
+ *  ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.199           -       100     0       i
+ * >      RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24 remote
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.199           -       100     0       i
+ *  ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.199           -       100     0       i
+ ```
+</details>
+<details>
+<summary> BGW2-52 </summary>
+   
+ ```
+BGW2-52#show bgp summary
+BGP summary information for VRF default
+Router identifier 10.52.0.199, local AS number 4200052101
+Neighbor             AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+----------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.52.0.101  4200052101 Established   IPv4 Unicast            Negotiated              6          6
+10.52.0.101  4200052101 Established   L2VPN EVPN              Negotiated             76         76
+10.52.0.102  4200052101 Established   IPv4 Unicast            Negotiated              6          6
+10.52.0.102  4200052101 Established   L2VPN EVPN              Negotiated             78         78
+10.52.1.254  4200000000 Established   IPv4 Unicast            Negotiated              4          4
+10.52.1.254  4200000000 Established   L2VPN EVPN              Negotiated             11         11
+10.52.2.254  4200000000 Established   IPv4 Unicast            Negotiated              4          4
+10.52.2.254  4200000000 Established   L2VPN EVPN              Negotiated             11         11
+
+BGW2-52#show bgp evpn summary
+BGP summary information for VRF default
+Router identifier 10.52.0.199, local AS number 4200052101
+Neighbor Status Codes: m - Under maintenance
+  Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  Spine's                  10.52.0.101 4 4200052101     33190     10098    0    0 11:46:48 Estab   76     76
+  Spine's                  10.52.0.102 4 4200052101     32518      9977    0    0 11:48:47 Estab   78     78
+  RouteServer's            10.52.1.254 4 4200000000     11451     11920    0    0 11:45:53 Estab   11     11
+  RouteServer's            10.52.2.254 4 4200000000     10150     11299    0    0 11:45:53 Estab   11     11
+
+BGW2-52#show ip route vrf vrf-MGMT
+
+VRF: vrf-MGMT
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B I      192.168.52.11/32 [200/0] via VTEP 10.52.0.112 VNI 10015 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+ B I      192.168.52.12/32 [200/0] via VTEP 10.52.0.112 VNI 10015 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+ B I      192.168.52.13/32 [200/0] via VTEP 10.52.0.114 VNI 10015 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.52.14/32 [200/0] via VTEP 10.52.0.114 VNI 10015 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.52.0/24 [200/0] via VTEP 10.52.0.113 VNI 10015 router-mac 50:00:00:15:f4:e8 local-interface Vxlan1
+                                  via VTEP 10.52.0.114 VNI 10015 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B E      192.168.63.0/24 [200/0] via VTEP 10.63.0.198 VNI 10015 router-mac 50:00:00:2c:6b:2e local-interface Vxlan1
+ C        192.168.255.0/24 is directly connected, Vlan255
+
+BGW2-52#show ip route vrf vrf-DATA
+
+VRF: vrf-DATA
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B I      192.168.152.11/32 [200/0] via VTEP 10.52.0.112 VNI 10019 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+ B I      192.168.152.13/32 [200/0] via VTEP 10.52.0.114 VNI 10019 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.152.14/32 [200/0] via VTEP 10.52.0.114 VNI 10019 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.152.0/24 [200/0] via VTEP 10.52.0.113 VNI 10019 router-mac 50:00:00:15:f4:e8 local-interface Vxlan1
+                                   via VTEP 10.52.0.111 VNI 10019 router-mac 50:00:00:d5:5d:c0 local-interface Vxlan1
+                                   via VTEP 10.52.0.112 VNI 10019 router-mac 50:00:00:03:37:66 local-interface Vxlan1
+                                   via VTEP 10.52.0.114 VNI 10019 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B E      192.168.163.0/24 [200/0] via VTEP 10.63.0.198 VNI 10019 router-mac 50:00:00:2c:6b:2e local-interface Vxlan1
+ C        192.168.254.0/24 is directly connected, Vlan254
+
+BGW2-52#show interfaces vxlan 1
+Vxlan1 is up, line protocol is up (connected)
+  Hardware is Vxlan
+  Source interface is Loopback1 and is active with 10.52.0.199
+  Listening on UDP port 4789
+  Replication/Flood Mode is headend with Flood List Source: EVPN
+  Remote MAC learning via EVPN
+  VNI mapping to VLANs
+  Static VLAN to VNI mapping is
+    [254, 1254]       [255, 1255]       [374, 1374]
+  Dynamic VLAN to VNI mapping for 'evpn' is
+    [4093, 10019]     [4094, 10015]
+  Note: All Dynamic VLANs used by VCS are internal VLANs.
+        Use 'show vxlan vni' for details.
+  Static VRF to VNI mapping is
+   [vrf-DATA, 10019]
+   [vrf-MGMT, 10015]
+  Headend replication flood vtep list is:
+   254 10.52.0.198
+   255 10.52.0.198
+   374 10.52.0.111     10.52.0.112     10.52.0.113     10.52.0.114     10.52.0.198
+       10.63.0.199     10.63.0.198
+  Shared Router MAC is 0000.0000.0000
+  VTEP to VTEP bridging to remote domain is enabled
+
+BGW2-52#show bgp evpn
+BGP routing table information for VRF default
+Router identifier 10.52.0.199, local AS number 4200052101
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1254 auto-discovery 0 0000:0000:0000:0052:5001
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1254 auto-discovery 0 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *        RD: 4200052101:1254 auto-discovery 0 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1255 auto-discovery 0 0000:0000:0000:0052:5001
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1255 auto-discovery 0 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *        RD: 4200052101:1255 auto-discovery 0 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.198:1 auto-discovery 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.198:1 auto-discovery 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >      RD: 10.52.0.199:1 auto-discovery 0000:0000:0000:0052:5001
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200052101:1255 mac-ip 0050.7966.6806
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1255 mac-ip 0050.7966.6806
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1255 mac-ip 0050.7966.6806 192.168.255.2
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1255 mac-ip 0050.7966.6806 192.168.255.2
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *        RD: 4200052101:1255 mac-ip 0050.7966.6806 192.168.255.2
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1254 mac-ip 0050.7966.6807
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1254 mac-ip 0050.7966.6807 192.168.254.2
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.003b.34d4
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.003b.34d4
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4 192.168.52.12
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4 192.168.52.12
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 mac-ip 5000.0042.0717
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 mac-ip 5000.0042.0717
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.0042.0717 192.168.52.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 mac-ip 5000.0042.0717 192.168.52.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.0042.0717 192.168.152.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 mac-ip 5000.0042.0717 192.168.152.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.00aa.5c3a 192.168.52.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.00aa.5c3a 192.168.52.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a 192.168.152.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a 192.168.152.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b 192.168.52.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b 192.168.52.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b 192.168.152.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b 192.168.152.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1374 mac-ip 5000.00d3.e57e
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 mac-ip 5000.00d3.e57e
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *        RD: 4200052101:1374 mac-ip 5000.00d3.e57e
+                                 -                     -       100     0       4200000000 4200063101 i
+ * >      RD: 4200052101:1374 mac-ip 5000.0042.0717 remote
+                                 -                     -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ * >Ec    RD: 4200063101:1374 mac-ip 5000.00d3.e57e remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 4200063101:1374 mac-ip 5000.00d3.e57e remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1254 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1254 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1255 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1255 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1254 imet 10.52.0.199
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1255 imet 10.52.0.199
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1374 imet 10.52.0.199
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1374 imet 10.52.0.199 remote
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.198 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 4200063101:1374 imet 10.63.0.198 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.199 remote
+                                 10.63.0.199           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 4200063101:1374 imet 10.63.0.199 remote
+                                 10.63.0.199           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.111
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.198:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.198:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >      RD: 10.52.0.199:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.199
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *        RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.111           -       100     0       i Or-ID: 10.52.0.111 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *        RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >      RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >      RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.52.0.114           -       100     0       i
+ *  ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.52.0.113           -       100     0       i
+ * >Ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *        RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.111           -       100     0       i
+ *  ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.111           -       100     0       i
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.112           -       100     0       i
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.112           -       100     0       i
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.113           -       100     0       i
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.113           -       100     0       i
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.114           -       100     0       i
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.114           -       100     0       i
+ * >Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *        RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200063101 i
+ *  Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i
+ * >Ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       i
+ *  ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       i
+ * >      RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24 remote
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       i
+ *  ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       i
+ * >      RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24 remote
+                                 -                     -       -       0       i
+ ```
+</details>
+<details>
+<summary> Leaf1-52 </summary>
+   
+ ```
+Leaf1-52#show bgp summary
+BGP summary information for VRF default
+Router identifier 10.52.0.111, local AS number 4200052101
+Neighbor             AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+----------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.52.0.101  4200052101 Established   IPv4 Unicast            Negotiated              8          8
+10.52.0.101  4200052101 Established   L2VPN EVPN              Negotiated             73         73
+10.52.0.102  4200052101 Established   IPv4 Unicast            Negotiated              8          8
+10.52.0.102  4200052101 Established   L2VPN EVPN              Negotiated             79         79
+
+Leaf1-52#show bgp evpn summary
+BGP summary information for VRF default
+Router identifier 10.52.0.111, local AS number 4200052101
+Neighbor Status Codes: m - Under maintenance
+  Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  Spine's                  10.52.0.101 4 4200052101     31170     12377    0    0 16:06:46 Estab   73     73
+  Spine's                  10.52.0.102 4 4200052101     30557     12375    0    0 16:05:21 Estab   79     79
+
+Leaf1-52#show ip route vrf vrf-MGMT
+
+VRF: vrf-MGMT
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B I      192.168.52.13/32 [200/0] via VTEP 10.52.0.114 VNI 10015 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.52.14/32 [200/0] via VTEP 10.52.0.114 VNI 10015 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ C        192.168.52.0/24 is directly connected, Vlan15
+ B I      192.168.63.0/24 [200/0] via VTEP 10.52.0.198 VNI 10015 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+                                  via VTEP 10.52.0.199 VNI 10015 router-mac 50:00:00:72:f4:5e local-interface Vxlan1
+ B I      192.168.255.2/32 [200/0] via VTEP 10.52.0.198 VNI 10015 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+ B I      192.168.255.0/24 [200/0] via VTEP 10.52.0.198 VNI 10015 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+                                   via VTEP 10.52.0.199 VNI 10015 router-mac 50:00:00:72:f4:5e local-interface Vxlan1
+
+Leaf1-52#show ip route vrf vrf-DATA
+
+VRF: vrf-DATA
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B I      192.168.152.13/32 [200/0] via VTEP 10.52.0.114 VNI 10019 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ B I      192.168.152.14/32 [200/0] via VTEP 10.52.0.114 VNI 10019 router-mac 50:00:00:c6:63:96 local-interface Vxlan1
+ C        192.168.152.0/24 is directly connected, Vlan19
+ B I      192.168.163.0/24 [200/0] via VTEP 10.52.0.198 VNI 10019 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+                                   via VTEP 10.52.0.199 VNI 10019 router-mac 50:00:00:72:f4:5e local-interface Vxlan1
+ B I      192.168.254.2/32 [200/0] via VTEP 10.52.0.199 VNI 10019 router-mac 50:00:00:72:f4:5e local-interface Vxlan1
+ B I      192.168.254.0/24 [200/0] via VTEP 10.52.0.198 VNI 10019 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+                                   via VTEP 10.52.0.199 VNI 10019 router-mac 50:00:00:72:f4:5e local-interface Vxlan1
+
+Leaf1-52#show interfaces vxlan 1
+Vxlan1 is up, line protocol is up (connected)
+  Hardware is Vxlan
+  Source interface is Loopback1 and is active with 10.52.0.111
+  Listening on UDP port 4789
+  Replication/Flood Mode is headend with Flood List Source: EVPN
+  Remote MAC learning via EVPN
+  VNI mapping to VLANs
+  Static VLAN to VNI mapping is
+    [15, 1015]        [19, 1019]        [374, 1374]
+  Dynamic VLAN to VNI mapping for 'evpn' is
+    [4093, 10019]     [4094, 10015]
+  Note: All Dynamic VLANs used by VCS are internal VLANs.
+        Use 'show vxlan vni' for details.
+  Static VRF to VNI mapping is
+   [vrf-DATA, 10019]
+   [vrf-MGMT, 10015]
+  Headend replication flood vtep list is:
+    15 10.52.0.112     10.52.0.113     10.52.0.114
+    19 10.52.0.112     10.52.0.113     10.52.0.114
+   374 10.52.0.112     10.52.0.113     10.52.0.114     10.52.0.198     10.52.0.199
+  Shared Router MAC is 0000.0000.0000
+
+Leaf1-52#show bgp evpn
+BGP routing table information for VRF default
+Router identifier 10.52.0.111, local AS number 4200052101
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1001
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >      RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1001
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >      RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1001
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >      RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1001
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1001
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >      RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1002
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >      RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1002
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >      RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1002
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >      RD: 10.52.0.111:1 auto-discovery 0000:0000:0000:0052:1002
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.112:1 auto-discovery 0000:0000:0000:0052:1002
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3001
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1374 auto-discovery 0 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.113:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.114:1 auto-discovery 0000:0000:0000:0052:3002
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1254 auto-discovery 0 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1254 auto-discovery 0 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1255 auto-discovery 0 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1255 auto-discovery 0 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.198:1 auto-discovery 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.198:1 auto-discovery 0000:0000:0000:0052:5001
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.199:1 auto-discovery 0000:0000:0000:0052:5001
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.199:1 auto-discovery 0000:0000:0000:0052:5001
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1255 mac-ip 0050.7966.6806
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1255 mac-ip 0050.7966.6806
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1255 mac-ip 0050.7966.6806 192.168.255.2
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1255 mac-ip 0050.7966.6806 192.168.255.2
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1254 mac-ip 0050.7966.6807
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1254 mac-ip 0050.7966.6807
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1254 mac-ip 0050.7966.6807 192.168.254.2
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1254 mac-ip 0050.7966.6807 192.168.254.2
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ * >      RD: 4200052101:1015 mac-ip 5000.003b.34d4
+                                 -                     -       -       0       i
+ *        RD: 4200052101:1015 mac-ip 5000.003b.34d4
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *        RD: 4200052101:1015 mac-ip 5000.003b.34d4
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >      RD: 4200052101:1019 mac-ip 5000.003b.34d4
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4 192.168.52.12
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.003b.34d4 192.168.52.12
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *        RD: 4200052101:1015 mac-ip 5000.003b.34d4 192.168.52.12
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 mac-ip 5000.0042.0717
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.0042.0717 192.168.52.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.0042.0717 192.168.52.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *        RD: 4200052101:1015 mac-ip 5000.0042.0717 192.168.52.11
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.0042.0717 192.168.152.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.0042.0717 192.168.152.11
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *        RD: 4200052101:1019 mac-ip 5000.0042.0717 192.168.152.11
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 mac-ip 5000.00aa.5c3a
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 mac-ip 5000.00aa.5c3a
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.00aa.5c3a 192.168.52.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1015 mac-ip 5000.00aa.5c3a 192.168.52.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a 192.168.152.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00aa.5c3a 192.168.152.13
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b 192.168.52.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 mac-ip 5000.00b7.4a5b 192.168.52.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b 192.168.152.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1019 mac-ip 5000.00b7.4a5b 192.168.152.14
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 mac-ip 5000.00d3.e57e
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 mac-ip 5000.00d3.e57e
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >      RD: 4200052101:1015 imet 10.52.0.111
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1019 imet 10.52.0.111
+                                 -                     -       -       0       i
+ * >      RD: 4200052101:1374 imet 10.52.0.111
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1374 imet 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1015 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1015 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1019 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1019 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 4200052101:1374 imet 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 4200052101:1254 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1254 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1255 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1255 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1254 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1254 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1255 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1255 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 4200052101:1374 imet 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >      RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.111
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1001 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >      RD: 10.52.0.111:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.111
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.112:1 ethernet-segment 0000:0000:0000:0052:1002 10.52.0.112
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3001 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.113:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.113
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.114:1 ethernet-segment 0000:0000:0000:0052:3002 10.52.0.114
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.198:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.198:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.198
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.199:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.199:1 ethernet-segment 0000:0000:0000:0052:5001 10.52.0.199
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >      RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 -                     -       -       0       i
+ *        RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ *        RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ *  ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >      RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.112           -       100     0       i Or-ID: 10.52.0.112 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.113           -       100     0       i Or-ID: 10.52.0.113 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.101
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.114           -       100     0       i Or-ID: 10.52.0.114 C-LST: 10.52.0.102
+ * >Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.199           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200063101 i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ * >Ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       i Or-ID: 10.52.0.198 C-LST: 10.52.0.101
+ * >Ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.102
+ *  ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.199           -       100     0       i Or-ID: 10.52.0.199 C-LST: 10.52.0.101
+ ```
+</details>
+
+#### Сайт "DC63":
+
+</details>
+<details>
+<summary> RouteServer-2 </summary>
+
+ ```
+RouteServer-2#show bgp summary
+BGP summary information for VRF default
+Router identifier 10.63.0.0, local AS number 4200000000
+Neighbor             AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+----------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.52.2.253  4200052101 Established   IPv4 Unicast            Negotiated              4          4
+10.52.2.253  4200052101 Established   L2VPN EVPN              Negotiated             10         10
+10.52.2.255  4200052101 Established   IPv4 Unicast            Negotiated              4          4
+10.52.2.255  4200052101 Established   L2VPN EVPN              Negotiated             10         10
+10.63.2.253  4200063101 Established   IPv4 Unicast            Negotiated              4          4
+10.63.2.253  4200063101 Established   L2VPN EVPN              Negotiated             10         10
+10.63.2.255  4200063101 Established   IPv4 Unicast            Negotiated              4          4
+10.63.2.255  4200063101 Established   L2VPN EVPN              Negotiated             10         10
+
+RouteServer-2#sh bgp evpn summary
+BGP summary information for VRF default
+Router identifier 10.63.0.0, local AS number 4200000000
+Neighbor Status Codes: m - Under maintenance
+  Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  BGWs                     10.52.2.253 4 4200052101     11380     10249    0    0 13:41:17 Estab   10     10
+  BGWs                     10.52.2.255 4 4200052101     11238     10227    0    0 11:53:22 Estab   10     10
+  BGWs                     10.63.2.253 4 4200063101     13783     10796    0    0 12:35:41 Estab   10     10
+  BGWs                     10.63.2.255 4 4200063101     13923     10896    0    0 12:09:12 Estab   10     10
+
+RouteServer-2#show ip route
+
+VRF: default
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B E      10.52.0.98/32 [200/0] via 10.52.2.253, Ethernet1
+                                via 10.52.2.255, Ethernet2
+ B E      10.52.0.99/32 [200/0] via 10.52.2.253, Ethernet1
+                                via 10.52.2.255, Ethernet2
+ B E      10.52.0.198/32 [200/0] via 10.52.2.253, Ethernet1
+                                 via 10.52.2.255, Ethernet2
+ B E      10.52.0.199/32 [200/0] via 10.52.2.253, Ethernet1
+                                 via 10.52.2.255, Ethernet2
+ C        10.52.2.252/31 is directly connected, Ethernet1
+ C        10.52.2.254/31 is directly connected, Ethernet2
+ C        10.63.0.0/32 is directly connected, Loopback0
+ B E      10.63.0.98/32 [200/0] via 10.63.2.253, Ethernet3
+                                via 10.63.2.255, Ethernet4
+ B E      10.63.0.99/32 [200/0] via 10.63.2.253, Ethernet3
+                                via 10.63.2.255, Ethernet4
+ B E      10.63.0.198/32 [200/0] via 10.63.2.253, Ethernet3
+                                 via 10.63.2.255, Ethernet4
+ B E      10.63.0.199/32 [200/0] via 10.63.2.253, Ethernet3
+                                 via 10.63.2.255, Ethernet4
+ C        10.63.2.252/31 is directly connected, Ethernet3
+ C        10.63.2.254/31 is directly connected, Ethernet4
+ ```
+</details>
+<details>
+<summary> BGW1-63 </summary>
+   
+ ```
+BGW1-63#show bgp summary
+BGP summary information for VRF default
+Router identifier 10.63.0.198, local AS number 4200063101
+Neighbor             AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+----------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.63.0.101  4200063101 Established   IPv4 Unicast            Negotiated              6          6
+10.63.0.101  4200063101 Established   L2VPN EVPN              Negotiated             62         62
+10.63.0.102  4200063101 Established   IPv4 Unicast            Negotiated              2          2
+10.63.0.102  4200063101 Established   L2VPN EVPN              Negotiated             53         53
+10.63.1.252  4200000000 Established   IPv4 Unicast            Negotiated              4          4
+10.63.1.252  4200000000 Established   L2VPN EVPN              Negotiated             11         11
+10.63.2.252  4200000000 Established   IPv4 Unicast            Negotiated              4          4
+10.63.2.252  4200000000 Established   L2VPN EVPN              Negotiated             11         11
+
+BGW1-63#show bgp evpn summary
+BGP summary information for VRF default
+Router identifier 10.63.0.198, local AS number 4200063101
+Neighbor Status Codes: m - Under maintenance
+  Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  Spine's                  10.63.0.101 4 4200063101     36333      8308    0    0 12:05:06 Estab   62     62
+  Spine's                  10.63.0.102 4 4200063101     33530      8106    0    0 12:04:05 Estab   53     53
+  RouteServer's            10.63.1.252 4 4200000000     10789     13681    0    0 12:38:33 Estab   11     11
+  RouteServer's            10.63.2.252 4 4200000000     10351     13947    0    0 12:38:43 Estab   11     11
+
+BGW1-63#show ip route vrf vrf-MGMT
+
+VRF: vrf-MGMT
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B E      192.168.52.0/24 [200/0] via VTEP 10.52.0.198 VNI 10015 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+ B I      192.168.63.11/32 [200/0] via VTEP 10.63.0.111 VNI 10015 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B I      192.168.63.12/32 [200/0] via VTEP 10.63.0.111 VNI 10015 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B I      192.168.63.13/32 [200/0] via VTEP 10.63.0.113 VNI 10015 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+ B I      192.168.63.14/32 [200/0] via VTEP 10.63.0.114 VNI 10015 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ B I      192.168.63.0/24 [200/0] via VTEP 10.63.0.112 VNI 10015 router-mac 50:00:00:ae:f7:03 local-interface Vxlan1
+                                  via VTEP 10.63.0.114 VNI 10015 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+                                  via VTEP 10.63.0.113 VNI 10015 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+                                  via VTEP 10.63.0.111 VNI 10015 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B E      192.168.255.0/24 [200/0] via VTEP 10.52.0.198 VNI 10015 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+
+BGW1-63#show ip route vrf vrf-DATA
+
+VRF: vrf-DATA
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B E      192.168.152.0/24 [200/0] via VTEP 10.52.0.198 VNI 10019 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+ B I      192.168.163.11/32 [200/0] via VTEP 10.63.0.111 VNI 10019 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B I      192.168.163.12/32 [200/0] via VTEP 10.63.0.111 VNI 10019 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B I      192.168.163.13/32 [200/0] via VTEP 10.63.0.113 VNI 10019 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+ B I      192.168.163.14/32 [200/0] via VTEP 10.63.0.114 VNI 10019 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ B I      192.168.163.0/24 [200/0] via VTEP 10.63.0.114 VNI 10019 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+                                   via VTEP 10.63.0.111 VNI 10019 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+                                   via VTEP 10.63.0.112 VNI 10019 router-mac 50:00:00:ae:f7:03 local-interface Vxlan1
+                                   via VTEP 10.63.0.113 VNI 10019 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+ B E      192.168.254.0/24 [200/0] via VTEP 10.52.0.198 VNI 10019 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+
+BGW1-63#show interfaces vxlan 1
+Vxlan1 is up, line protocol is up (connected)
+  Hardware is Vxlan
+  Source interface is Loopback1 and is active with 10.63.0.198
+  Listening on UDP port 4789
+  Replication/Flood Mode is headend with Flood List Source: EVPN
+  Remote MAC learning via EVPN
+  VNI mapping to VLANs
+  Static VLAN to VNI mapping is
+    [374, 1374]
+  Dynamic VLAN to VNI mapping for 'evpn' is
+    [4093, 10019]     [4094, 10015]
+  Note: All Dynamic VLANs used by VCS are internal VLANs.
+        Use 'show vxlan vni' for details.
+  Static VRF to VNI mapping is
+   [vrf-DATA, 10019]
+   [vrf-MGMT, 10015]
+  Headend replication flood vtep list is:
+   374 10.63.0.114     10.52.0.199     10.63.0.199     10.52.0.198     10.63.0.112
+       10.63.0.111     10.63.0.113
+  Shared Router MAC is 0000.0000.0000
+  VTEP to VTEP bridging to remote domain is enabled
+
+BGW1-63#show bgp evpn
+BGP routing table information for VRF default
+Router identifier 10.63.0.198, local AS number 4200063101
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.0053.3517
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 mac-ip 5000.0053.3517
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0053.3517
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0053.3517
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.0053.3517 192.168.63.12
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 mac-ip 5000.0053.3517 192.168.63.12
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0053.3517 192.168.163.12
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0053.3517 192.168.163.12
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa 192.168.63.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa 192.168.63.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa 192.168.163.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa 192.168.163.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e 192.168.63.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e 192.168.63.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e 192.168.163.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e 192.168.163.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.00d3.e57e 192.168.63.11
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 mac-ip 5000.00d3.e57e 192.168.63.11
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00d3.e57e 192.168.163.11
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00d3.e57e 192.168.163.11
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >      RD: 4200063101:1374 mac-ip 5000.00d3.e57e remote
+                                 -                     -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >      RD: 4200063101:1374 imet 10.63.0.198
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.199
+                                 10.63.0.199           -       100     0       i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 imet 10.63.0.199
+                                 10.63.0.199           -       100     0       i Or-ID: 10.63.0.199 C-LST: 10.63.0.102
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.198 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 4200052101:1374 imet 10.52.0.198 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.199 remote
+                                 10.52.0.199           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 4200052101:1374 imet 10.52.0.199 remote
+                                 10.52.0.199           -       100     0       4200000000 4200052101 i
+ * >      RD: 4200063101:1374 imet 10.63.0.198 remote
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1001 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1001 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1002 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1002 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.111           -       100     0       i
+ *  ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.111           -       100     0       i
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.112           -       100     0       i
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.112           -       100     0       i
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.113           -       100     0       i
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.113           -       100     0       i
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.114           -       100     0       i
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.114           -       100     0       i
+ * >Ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.111           -       100     0       i
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.111           -       100     0       i
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.112           -       100     0       i
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.112           -       100     0       i
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.113           -       100     0       i
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.113           -       100     0       i
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.114           -       100     0       i
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.114           -       100     0       i
+ * >Ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24 remote
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24 remote
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24 remote
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24 remote
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i
+ ```
+</details>
+<details>
+<summary> BGW2-63 </summary>
+   
+ ```
+BGW2-63#show bgp summary
+BGP summary information for VRF default
+Router identifier 10.63.0.199, local AS number 4200063101
+Neighbor             AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+----------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.63.0.101  4200063101 Established   IPv4 Unicast            Negotiated              2          2
+10.63.0.101  4200063101 Established   L2VPN EVPN              Negotiated             62         62
+10.63.0.102  4200063101 Established   IPv4 Unicast            Negotiated              6          6
+10.63.0.102  4200063101 Established   L2VPN EVPN              Negotiated             71         71
+10.63.1.254  4200000000 Established   IPv4 Unicast            Negotiated              4          4
+10.63.1.254  4200000000 Established   L2VPN EVPN              Negotiated             11         11
+10.63.2.254  4200000000 Established   IPv4 Unicast            Negotiated              4          4
+10.63.2.254  4200000000 Established   L2VPN EVPN              Negotiated             11         11
+
+BGW2-63#show bgp evpn summary
+BGP summary information for VRF default
+Router identifier 10.63.0.199, local AS number 4200063101
+Neighbor Status Codes: m - Under maintenance
+  Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  Spine's                  10.63.0.101 4 4200063101     36782      8486    0    0 12:13:51 Estab   62     62
+  Spine's                  10.63.0.102 4 4200063101     33720      8166    0    0 12:05:43 Estab   71     71
+  RouteServer's            10.63.1.254 4 4200000000     10650     13647    0    0 12:28:43 Estab   11     11
+  RouteServer's            10.63.2.254 4 4200000000     10400     14256    0    0 12:17:32 Estab   11     11
+
+BGW2-63#show ip route vrf vrf-MGMT
+
+VRF: vrf-MGMT
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B E      192.168.52.0/24 [200/0] via VTEP 10.52.0.198 VNI 10015 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+ B I      192.168.63.11/32 [200/0] via VTEP 10.63.0.111 VNI 10015 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B I      192.168.63.12/32 [200/0] via VTEP 10.63.0.111 VNI 10015 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B I      192.168.63.13/32 [200/0] via VTEP 10.63.0.113 VNI 10015 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+ B I      192.168.63.14/32 [200/0] via VTEP 10.63.0.114 VNI 10015 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ B I      192.168.63.0/24 [200/0] via VTEP 10.63.0.114 VNI 10015 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+                                  via VTEP 10.63.0.113 VNI 10015 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+                                  via VTEP 10.63.0.112 VNI 10015 router-mac 50:00:00:ae:f7:03 local-interface Vxlan1
+                                  via VTEP 10.63.0.111 VNI 10015 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B E      192.168.255.0/24 [200/0] via VTEP 10.52.0.198 VNI 10015 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+
+BGW2-63#show ip route vrf vrf-DATA
+
+VRF: vrf-DATA
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B E      192.168.152.0/24 [200/0] via VTEP 10.52.0.198 VNI 10019 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+ B I      192.168.163.11/32 [200/0] via VTEP 10.63.0.111 VNI 10019 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B I      192.168.163.12/32 [200/0] via VTEP 10.63.0.111 VNI 10019 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+ B I      192.168.163.13/32 [200/0] via VTEP 10.63.0.113 VNI 10019 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+ B I      192.168.163.14/32 [200/0] via VTEP 10.63.0.114 VNI 10019 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ B I      192.168.163.0/24 [200/0] via VTEP 10.63.0.111 VNI 10019 router-mac 50:00:00:45:ab:df local-interface Vxlan1
+                                   via VTEP 10.63.0.114 VNI 10019 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+                                   via VTEP 10.63.0.113 VNI 10019 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+                                   via VTEP 10.63.0.112 VNI 10019 router-mac 50:00:00:ae:f7:03 local-interface Vxlan1
+ B E      192.168.254.0/24 [200/0] via VTEP 10.52.0.198 VNI 10019 router-mac 50:00:00:3d:d2:a9 local-interface Vxlan1
+
+BGW2-63#show interfaces vxlan 1
+Vxlan1 is up, line protocol is up (connected)
+  Hardware is Vxlan
+  Source interface is Loopback1 and is active with 10.63.0.199
+  Listening on UDP port 4789
+  Replication/Flood Mode is headend with Flood List Source: EVPN
+  Remote MAC learning via EVPN
+  VNI mapping to VLANs
+  Static VLAN to VNI mapping is
+    [374, 1374]
+  Dynamic VLAN to VNI mapping for 'evpn' is
+    [4093, 10019]     [4094, 10015]
+  Note: All Dynamic VLANs used by VCS are internal VLANs.
+        Use 'show vxlan vni' for details.
+  Static VRF to VNI mapping is
+   [vrf-DATA, 10019]
+   [vrf-MGMT, 10015]
+  Headend replication flood vtep list is:
+   374 10.63.0.114     10.52.0.199     10.52.0.198     10.63.0.198     10.63.0.112
+       10.63.0.111     10.63.0.113
+  Shared Router MAC is 0000.0000.0000
+  VTEP to VTEP bridging to remote domain is enabled
+
+BGW2-63#show bgp evpn
+BGP routing table information for VRF default
+Router identifier 10.63.0.199, local AS number 4200063101
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1001
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1002
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0053.3517
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0053.3517
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0053.3517 192.168.163.12
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0053.3517 192.168.163.12
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa 192.168.63.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa 192.168.63.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa 192.168.163.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa 192.168.163.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e 192.168.63.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e 192.168.63.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e 192.168.163.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e 192.168.163.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 mac-ip 5000.00d3.e57e
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00d3.e57e 192.168.163.11
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00d3.e57e 192.168.163.11
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >      RD: 4200063101:1374 mac-ip 5000.00d3.e57e remote
+                                 -                     -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 imet 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.198
+                                 10.63.0.198           -       100     0       i Or-ID: 10.63.0.198 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 imet 10.63.0.198
+                                 10.63.0.198           -       100     0       i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >      RD: 4200063101:1374 imet 10.63.0.199
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.198 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 4200052101:1374 imet 10.52.0.198 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 4200052101:1374 imet 10.52.0.199 remote
+                                 10.52.0.199           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 4200052101:1374 imet 10.52.0.199 remote
+                                 10.52.0.199           -       100     0       4200000000 4200052101 i
+ * >      RD: 4200063101:1374 imet 10.63.0.199 remote
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1001 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1001 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1002 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1002 10.63.0.111
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.111           -       100     0       i Or-ID: 10.63.0.111 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.111           -       100     0       i
+ *  ec    RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.111           -       100     0       i
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.112           -       100     0       i
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.112           -       100     0       i
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.113           -       100     0       i
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.113           -       100     0       i
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.114           -       100     0       i
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24 remote
+                                 10.63.0.114           -       100     0       i
+ * >Ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.111           -       100     0       i
+ *  ec    RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.111           -       100     0       i
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.112           -       100     0       i
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.112           -       100     0       i
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.113           -       100     0       i
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.113           -       100     0       i
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.114           -       100     0       i
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24 remote
+                                 10.63.0.114           -       100     0       i
+ * >Ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i
+ * >Ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *  ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24 remote
+                                 10.52.0.198           -       100     0       4200000000 4200052101 i
+ *        RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24 remote
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i
+ ```
+</details>
+<details>
+<summary> Leaf1-63 </summary>
+   
+ ```
+Leaf1-63#show bgp summary
+BGP summary information for VRF default
+Router identifier 10.63.0.111, local AS number 4200063101
+Neighbor             AS Session State AFI/SAFI                AFI/SAFI State   NLRI Rcd   NLRI Acc
+----------- ----------- ------------- ----------------------- -------------- ---------- ----------
+10.63.0.101  4200063101 Established   IPv4 Unicast            Negotiated              8          8
+10.63.0.101  4200063101 Established   L2VPN EVPN              Negotiated             48         48
+10.63.0.102  4200063101 Established   IPv4 Unicast            Negotiated              8          8
+10.63.0.102  4200063101 Established   L2VPN EVPN              Negotiated             48         48
+
+Leaf1-63#show bgp evpn summary
+BGP summary information for VRF default
+Router identifier 10.63.0.111, local AS number 4200063101
+Neighbor Status Codes: m - Under maintenance
+  Description              Neighbor    V AS           MsgRcvd   MsgSent  InQ OutQ  Up/Down State   PfxRcd PfxAcc
+  Spine's                  10.63.0.101 4 4200063101     34525      7947    0    0 13:21:28 Estab   48     48
+  Spine's                  10.63.0.102 4 4200063101     31795      7755    0    0    1d17h Estab   48     48
+
+Leaf1-63#show ip route vrf vrf-MGMT
+
+VRF: vrf-MGMT
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B I      192.168.52.0/24 [200/0] via VTEP 10.63.0.198 VNI 10015 router-mac 50:00:00:2c:6b:2e local-interface Vxlan1
+                                  via VTEP 10.63.0.199 VNI 10015 router-mac 50:00:00:5b:1c:a8 local-interface Vxlan1
+ B I      192.168.63.13/32 [200/0] via VTEP 10.63.0.113 VNI 10015 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+ B I      192.168.63.14/32 [200/0] via VTEP 10.63.0.114 VNI 10015 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ C        192.168.63.0/24 is directly connected, Vlan15
+ B I      192.168.255.0/24 [200/0] via VTEP 10.63.0.198 VNI 10015 router-mac 50:00:00:2c:6b:2e local-interface Vxlan1
+                                   via VTEP 10.63.0.199 VNI 10015 router-mac 50:00:00:5b:1c:a8 local-interface Vxlan1
+
+Leaf1-63#show ip route vrf vrf-DATA
+
+VRF: vrf-DATA
+Codes: C - connected, S - static, K - kernel,
+       O - OSPF, IA - OSPF inter area, E1 - OSPF external type 1,
+       E2 - OSPF external type 2, N1 - OSPF NSSA external type 1,
+       N2 - OSPF NSSA external type2, B - Other BGP Routes,
+       B I - iBGP, B E - eBGP, R - RIP, I L1 - IS-IS level 1,
+       I L2 - IS-IS level 2, O3 - OSPFv3, A B - BGP Aggregate,
+       A O - OSPF Summary, NG - Nexthop Group Static Route,
+       V - VXLAN Control Service, M - Martian,
+       DH - DHCP client installed default route,
+       DP - Dynamic Policy Route, L - VRF Leaked,
+       G  - gRIBI, RC - Route Cache Route
+
+Gateway of last resort is not set
+
+ B I      192.168.152.0/24 [200/0] via VTEP 10.63.0.198 VNI 10019 router-mac 50:00:00:2c:6b:2e local-interface Vxlan1
+                                   via VTEP 10.63.0.199 VNI 10019 router-mac 50:00:00:5b:1c:a8 local-interface Vxlan1
+ B I      192.168.163.13/32 [200/0] via VTEP 10.63.0.113 VNI 10019 router-mac 50:00:00:2f:d8:fe local-interface Vxlan1
+ B I      192.168.163.14/32 [200/0] via VTEP 10.63.0.114 VNI 10019 router-mac 50:00:00:26:10:0e local-interface Vxlan1
+ C        192.168.163.0/24 is directly connected, Vlan19
+ B I      192.168.254.0/24 [200/0] via VTEP 10.63.0.198 VNI 10019 router-mac 50:00:00:2c:6b:2e local-interface Vxlan1
+                                   via VTEP 10.63.0.199 VNI 10019 router-mac 50:00:00:5b:1c:a8 local-interface Vxlan1
+
+Leaf1-63#show interfaces vxlan 1
+Vxlan1 is up, line protocol is up (connected)
+  Hardware is Vxlan
+  Source interface is Loopback1 and is active with 10.63.0.111
+  Listening on UDP port 4789
+  Replication/Flood Mode is headend with Flood List Source: EVPN
+  Remote MAC learning via EVPN
+  VNI mapping to VLANs
+  Static VLAN to VNI mapping is
+    [15, 1015]        [19, 1019]        [374, 1374]
+  Dynamic VLAN to VNI mapping for 'evpn' is
+    [4093, 10019]     [4094, 10015]
+  Note: All Dynamic VLANs used by VCS are internal VLANs.
+        Use 'show vxlan vni' for details.
+  Static VRF to VNI mapping is
+   [vrf-DATA, 10019]
+   [vrf-MGMT, 10015]
+  Headend replication flood vtep list is:
+    15 10.63.0.114     10.63.0.112     10.63.0.113
+    19 10.63.0.114     10.63.0.112     10.63.0.113
+   374 10.63.0.114     10.63.0.199     10.63.0.198     10.63.0.112     10.63.0.113
+  Shared Router MAC is 0000.0000.0000
+
+Leaf1-63#show bgp evpn
+BGP routing table information for VRF default
+Router identifier 10.63.0.111, local AS number 4200063101
+Route status codes: * - valid, > - active, S - Stale, E - ECMP head, e - ECMP
+                    c - Contributing to ECMP, % - Pending BGP convergence
+Origin codes: i - IGP, e - EGP, ? - incomplete
+AS Path Attributes: Or-ID - Originator ID, C-LST - Cluster List, LL Nexthop - Link Local Nexthop
+
+          Network                Next Hop              Metric  LocPref Weight  Path
+ * >      RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1001
+                                 -                     -       -       0       i
+ * >      RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1001
+                                 -                     -       -       0       i
+ * >      RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1001
+                                 -                     -       -       0       i
+ * >      RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1001
+                                 -                     -       -       0       i
+ * >      RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:1002
+                                 -                     -       -       0       i
+ * >      RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:1002
+                                 -                     -       -       0       i
+ * >      RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:1002
+                                 -                     -       -       0       i
+ * >      RD: 10.63.0.111:1 auto-discovery 0000:0000:0000:0063:1002
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3001
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 auto-discovery 0 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 auto-discovery 0000:0000:0000:0063:3002
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 mac-ip 5000.0042.0717
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 mac-ip 5000.0042.0717
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.101
+ * >      RD: 4200063101:1015 mac-ip 5000.0053.3517
+                                 -                     -       -       0       i
+ * >      RD: 4200063101:1015 mac-ip 5000.0053.3517 192.168.63.12
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa 192.168.63.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 mac-ip 5000.0075.2dfa 192.168.63.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa 192.168.163.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 mac-ip 5000.0075.2dfa 192.168.163.13
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e 192.168.63.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 mac-ip 5000.00af.b20e 192.168.63.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e 192.168.163.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 mac-ip 5000.00af.b20e 192.168.163.14
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >      RD: 4200063101:1374 mac-ip 5000.00d3.e57e
+                                 -                     -       -       0       i
+ * >      RD: 4200063101:1015 imet 10.63.0.111
+                                 -                     -       -       0       i
+ * >      RD: 4200063101:1019 imet 10.63.0.111
+                                 -                     -       -       0       i
+ * >      RD: 4200063101:1374 imet 10.63.0.111
+                                 -                     -       -       0       i
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 imet 10.63.0.112
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1015 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1019 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 imet 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1015 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1015 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1019 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1019 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 imet 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.198
+                                 10.63.0.198           -       100     0       i Or-ID: 10.63.0.198 C-LST: 10.63.0.101
+ *  ec    RD: 4200063101:1374 imet 10.63.0.198
+                                 10.63.0.198           -       100     0       i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ * >Ec    RD: 4200063101:1374 imet 10.63.0.199
+                                 10.63.0.199           -       100     0       i Or-ID: 10.63.0.199 C-LST: 10.63.0.102
+ *  ec    RD: 4200063101:1374 imet 10.63.0.199
+                                 10.63.0.199           -       100     0       i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >      RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1001 10.63.0.111
+                                 -                     -       -       0       i
+ * >      RD: 10.63.0.111:1 ethernet-segment 0000:0000:0000:0063:1002 10.63.0.111
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3001 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.113
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 ethernet-segment 0000:0000:0000:0063:3002 10.63.0.114
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 10.52.0.111:1 ip-prefix 192.168.52.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >      RD: 10.63.0.111:1 ip-prefix 192.168.63.0/24
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.112:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:1 ip-prefix 192.168.63.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 10.52.0.111:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 10.52.0.112:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 10.52.0.113:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 10.52.0.114:2 ip-prefix 192.168.152.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >      RD: 10.63.0.111:2 ip-prefix 192.168.163.0/24
+                                 -                     -       -       0       i
+ * >Ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.112:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.112           -       100     0       i Or-ID: 10.63.0.112 C-LST: 10.63.0.101
+ * >Ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.101
+ *  ec    RD: 10.63.0.113:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.113           -       100     0       i Or-ID: 10.63.0.113 C-LST: 10.63.0.102
+ * >Ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.102
+ *  ec    RD: 10.63.0.114:2 ip-prefix 192.168.163.0/24
+                                 10.63.0.114           -       100     0       i Or-ID: 10.63.0.114 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 10.52.0.198:2 ip-prefix 192.168.254.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 10.52.0.199:2 ip-prefix 192.168.254.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 10.52.0.198:1 ip-prefix 192.168.255.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ * >Ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.63.0.198           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.198 C-LST: 10.63.0.102
+ *  ec    RD: 10.52.0.199:1 ip-prefix 192.168.255.0/24
+                                 10.63.0.199           -       100     0       4200000000 4200052101 i Or-ID: 10.63.0.199 C-LST: 10.63.0.101
+ ```
+</details>
 
 ### Проверка наличия связностей для сервисов на Сайтах "DC52" и "DC63", объединенных в топологию "MultiSite".
 #### Проверка наличия связности в vrf "vrf-MGMT" для сервиса "Управление и мониторинг" через L2/L3 VNI на Сайтах "DC52" и "DC63":

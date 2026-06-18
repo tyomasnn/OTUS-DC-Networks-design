@@ -1,6 +1,6 @@
 ### Лабораторные работы:
  - [Lab01. Проектирование адресного пространства](Lab01/)
- - [Lab02. Underlay. OSPF](Lab02/)
+ - [Lab02. Построение Underlay сети с использованием протокола динамической маршрутизации OSPF](Lab02/)
  - [Lab03. Underlay. IS-IS](Lab03/)
  - [Lab04. Underlay. BGP](Lab04/)
  - [Lab05. VxLAN. L2 VNI](Lab05/)

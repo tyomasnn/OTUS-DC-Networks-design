@@ -1,10 +1,1 @@
-### Лабораторные работы:
- - [Lab01. Проектирование адресного пространства](Lab01/Readme.md)
- - [Lab02. Underlay. OSPF](Lab02/Readme.md)
- - [Lab03. Underlay. IS-IS](Lab03/Readme.md)
- - [Lab04. Underlay. BGP](Lab04/Readme.md)
- - [Lab05. VxLAN. L2 VNI](Lab05/Readme.md)
- - [Lab06. VxLAN. L3 VNI](Lab06/Readme.md)
- - [Lab07. VxLAN. Аналоги VPC](Lab07/Readme.md)
- - [Lab08. VxLAN. Оптимизация таблиц маршрутизации](Lab08/Readme.md)
- - [Проектная работа. Построение распределенного ПАК 374-ФЗ для федерального оператора связи](Project/Readme.md)
+OTUS-DC-Networks-design

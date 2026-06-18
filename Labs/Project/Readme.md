@@ -59,44 +59,87 @@
  
 Device|Interface|IP Address|Subnet Mask|Gateway|vrf
 ---|---|---|---|---|---
-Spine1-63|Loopback0 (Underlay)|10.63.0.1|/32|-|-
--|Loopback1 (Overlay)|10.63.0.101|/32|-|-
--|Ethernet1|10.63.1.0|/31|-|-
--|Ethernet2|10.63.1.2|/31|-|-
--|Ethernet3|10.63.1.4|/31|-|-
--|Ethernet4|10.63.1.6|/31|-|-
-Spine2-63|Loopback0 (Underlay)|10.63.0.2|/32|-|-
--|Loopback1 (Overlay)|10.63.0.102|/32|-|-
--|Ethernet1|10.63.2.0|/31|-|-
--|Ethernet2|10.63.2.2|/31|-|-
--|Ethernet3|10.63.2.4|/31|-|-
--|Ethernet4|10.63.2.6|/31|-|-
-Leaf1-63|Loopback0 (Underlay)|10.63.0.11|/32|-|-
--|Loopback1 (Overlay)|10.63.0.111|/32|-|-
--|Ethernet1|10.63.1.1|/31|-|-
--|Ethernet2|10.63.2.1|/31|-|-
--|Vlan63 (GW for Net 192.168.63.0/25)|192.168.63.1|/25|-|vrf-SEGMENT1
--|Vlan163 (GW for Net 192.168.163.0/25)|192.168.63.1|/25|-|vrf-SEGMENT2
-Leaf2-63|Loopback0 (Underlay)|10.63.0.12|/32|-|-
--|Loopback1 (Overlay)|10.63.0.112|/32|-|-
--|Ethernet1|10.63.1.3|/31|-|-
--|Ethernet2|10.63.2.3|/31|-|-
--|Vlan163 (GW for Net 192.168.163.0/25)|192.168.163.1|/25|-|vrf-SEGMENT2
-Leaf3-63|Loopback0 (Underlay)|10.63.0.13|/32|-|-
--|Loopback1 (Overlay)|10.63.0.113|/32|-|-
--|Ethernet1|10.63.1.5|/31|-|-
--|Ethernet2|10.63.2.5|/31|-|-
--|Vlan1063 (GW for Net 192.168.63.128/25)|192.168.63.129|/25|-|vrf-SEGMENT1
-Leaf4-63|Loopback0 (Underlay)|10.63.0.14|/32|-|-
--|Loopback1 (Overlay)|10.63.0.114|/32|-|-
--|Ethernet1|10.63.1.7|/31|-|-
--|Ethernet2|10.63.2.7|/31|-|-
--|Vlan1163 (GW for Net 192.168.163.128/25)|192.168.163.129|/25|-|vrf-SEGMENT2
-PC1-63|eth0|192.168.63.2|/25|192.168.63.1|vrf-SEGMENT1
-PC2-63|eth0|192.168.163.2|/25|192.168.163.1|vrf-SEGMENT2
-PC3-63|eth0|192.168.63.130|/25|192.168.63.129|vrf-SEGMENT1
-PC4-63|eth0|192.168.163.130|/25|192.168.163.129|vrf-SEGMENT2
-PC5-63|eth0|192.168.163.3|/25|192.168.163.1|vrf-SEGMENT2
+RouteServer-1|Loopback0|10.52.0.0|/32|-|-
+-|Ethernet1|10.52.1.252|/31|-|-
+-|Ethernet2|10.52.1.254|/31|-|-
+-|Ethernet3|10.63.1.252|/31|-|-
+-|Ethernet4|10.63.1.254|/31|-|-
+BGW1-52|Loopback0 (Underlay)|10.52.0.98|/32|-|-
+-|Loopback1 (Overlay)|10.52.0.198|/32|-|-
+-|Ethernet1|10.52.1.97|/31|-|-
+-|Ethernet2|10.52.2.97|/31|-|-
+-|Ethernet7|10.52.1.253|/31|-|-
+-|Ethernet8|10.52.2.253|/31|-|-
+-|Vlan255 (GW for Net 192.168.255.0/24)|192.168.255.1|/24|-|vrf-MGMT
+-|Vlan254 (GW for Net 192.168.254.0/24)|192.168.254.1|/24|-|vrf-DATA
+BGW2-52|Loopback0 (Underlay)|10.52.0.99|/32|-|-
+-|Loopback1 (Overlay)|10.52.0.199|/32|-|-
+-|Ethernet1|10.52.1.99|/31|-|-
+-|Ethernet2|10.52.2.99|/31|-|-
+-|Ethernet7|10.52.1.255|/31|-|-
+-|Ethernet8|10.52.2.255|/31|-|-
+-|Vlan255 (GW for Net 192.168.255.0/24)|192.168.255.1|/24|-|vrf-MGMT
+-|Vlan254 (GW for Net 192.168.254.0/24)|192.168.254.1|/24|-|vrf-DATA
+Spine1-52|Loopback0 (Underlay)|10.52.0.1|/32|-|-
+-|Loopback1 (Overlay)|10.52.0.101|/32|-|-
+-|Ethernet1|10.52.1.0|/31|-|-
+-|Ethernet2|10.52.1.2|/31|-|-
+-|Ethernet3|10.52.1.4|/31|-|-
+-|Ethernet4|10.52.1.6|/31|-|-
+-|Ethernet7|10.52.1.96|/31|-|-
+-|Ethernet8|10.52.1.98|/31|-|-
+Spine2-52|Loopback0 (Underlay)|10.52.0.2|/32|-|-
+-|Loopback1 (Overlay)|10.52.0.102|/32|-|-
+-|Ethernet1|10.52.2.0|/31|-|-
+-|Ethernet2|10.52.2.2|/31|-|-
+-|Ethernet3|10.52.2.4|/31|-|-
+-|Ethernet4|10.52.2.6|/31|-|-
+-|Ethernet7|10.52.2.96|/31|-|-
+-|Ethernet8|10.52.2.98|/31|-|-
+Leaf1-52|Loopback0 (Underlay)|10.52.0.11|/32|-|-
+-|Loopback1 (Overlay)|10.52.0.111|/32|-|-
+-|Ethernet1|10.52.1.1|/31|-|-
+-|Ethernet2|10.52.2.1|/31|-|-
+-|Vlan15 (GW for Net 192.168.52.0/24)|192.168.52.1|/24|-|vrf-MGMT
+-|Vlan19 (GW for Net 192.168.152.0/24)|192.168.152.1|/24|-|vrf-DATA
+Leaf2-52|Loopback0 (Underlay)|10.52.0.12|/32|-|-
+-|Loopback1 (Overlay)|10.52.0.112|/32|-|-
+-|Ethernet1|10.52.1.3|/31|-|-
+-|Ethernet2|10.52.2.3|/31|-|-
+-|Vlan15 (GW for Net 192.168.52.0/24)|192.168.52.1|/24|-|vrf-MGMT
+-|Vlan19 (GW for Net 192.168.152.0/24)|192.168.152.1|/24|-|vrf-DATA
+Leaf3-52|Loopback0 (Underlay)|10.52.0.13|/32|-|-
+-|Loopback1 (Overlay)|10.52.0.113|/32|-|-
+-|Ethernet1|10.52.1.5|/31|-|-
+-|Ethernet2|10.52.2.5|/31|-|-
+-|Vlan15 (GW for Net 192.168.52.0/24)|192.168.52.1|/24|-|vrf-MGMT
+-|Vlan19 (GW for Net 192.168.152.0/24)|192.168.152.1|/24|-|vrf-DATA
+Leaf4-52|Loopback0 (Underlay)|10.52.0.14|/32|-|-
+-|Loopback1 (Overlay)|10.52.0.114|/32|-|-
+-|Ethernet1|10.52.1.7|/31|-|-
+-|Ethernet2|10.52.2.7|/31|-|-
+-|Vlan15 (GW for Net 192.168.52.0/24)|192.168.52.1|/24|-|vrf-MGMT
+-|Vlan19 (GW for Net 192.168.152.0/24)|192.168.152.1|/24|-|vrf-DATA
+Leaf4-52|Loopback0 (Underlay)|10.52.0.14|/32|-|-
+-|Loopback1 (Overlay)|10.52.0.114|/32|-|-
+-|Ethernet1|10.52.1.7|/31|-|-
+-|Ethernet2|10.52.2.7|/31|-|-
+-|Vlan15 (GW for Net 192.168.52.0/24)|192.168.52.1|/24|-|vrf-MGMT
+-|Vlan19 (GW for Net 192.168.152.0/24)|192.168.152.1|/24|-|vrf-DATA
+Server1-52|Vlan15|192.168.52.11|/24|192.168.52.1|vrf-MGMT
+-|Vlan19|192.168.152.11|/24|192.168.152.1|vrf-DATA (local vrf-DATA-538)
+-|Vlan374|192.168.74.111|/24|-|vrf-DATA (local vrf-DATA-374)
+Server2-52|Vlan15|192.168.52.12|/24|192.168.52.1|vrf-MGMT
+-|Vlan19|192.168.152.12|/24|192.168.152.1|vrf-DATA (local vrf-DATA-538)
+-|Vlan374|192.168.74.112|/24|-|vrf-DATA (local vrf-DATA-374)
+Server3-52|Vlan15|192.168.52.13|/24|192.168.52.1|vrf-MGMT
+-|Vlan19|192.168.152.13|/24|192.168.152.1|vrf-DATA (local vrf-DATA-538)
+-|Vlan374|192.168.74.113|/24|-|vrf-DATA (local vrf-DATA-374)
+Server4-52|Vlan15|192.168.52.14|/24|192.168.52.1|vrf-MGMT
+-|Vlan19|192.168.152.14|/24|192.168.152.1|vrf-DATA (local vrf-DATA-538)
+-|Vlan374|192.168.74.114|/24|-|vrf-DATA (local vrf-DATA-374)
+Support-PC|eth0|192.168.255.2|/24|192.168.255.1|vrf-MGMT
+User-PC|eth0|192.168.254.2|/24|192.168.254.1|vrf-DATA
 
 </details>
 

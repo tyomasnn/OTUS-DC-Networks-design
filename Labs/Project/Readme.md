@@ -129,12 +129,6 @@ Leaf4-52|Loopback0 (Underlay)|10.52.0.14|/32|-|-
 -|Ethernet2|10.52.2.7|/31|-|-
 -|Vlan15 (GW for Net 192.168.52.0/24)|192.168.52.1|/24|-|vrf-MGMT
 -|Vlan19 (GW for Net 192.168.152.0/24)|192.168.152.1|/24|-|vrf-DATA
-Leaf4-52|Loopback0 (Underlay)|10.52.0.14|/32|-|-
--|Loopback1 (Overlay)|10.52.0.114|/32|-|-
--|Ethernet1|10.52.1.7|/31|-|-
--|Ethernet2|10.52.2.7|/31|-|-
--|Vlan15 (GW for Net 192.168.52.0/24)|192.168.52.1|/24|-|vrf-MGMT
--|Vlan19 (GW for Net 192.168.152.0/24)|192.168.152.1|/24|-|vrf-DATA
 Server1-52|Vlan15|192.168.52.11|/24|192.168.52.1|vrf-MGMT
 -|Vlan19|192.168.152.11|/24|192.168.152.1|vrf-DATA (local vrf-DATA-538)
 -|Vlan374|192.168.74.111|/24|-|vrf-DATA (local vrf-DATA-374)
